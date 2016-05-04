@@ -29,7 +29,8 @@ node_modules
 # Debug log from npm
 npm-debug.log
 
-
+# Ignore Webstorm IDE Files
+.idea/
 
 *.swp
 
