@@ -37,38 +37,34 @@ block body
 
     .row
         .col-md-2
-        .col-md-2
-            p Price Range
-            input(type="range" min="0" max="500" value="0" step="50" onchange="showValue(this.value)")
-            span(id="range")
-            script.
-                function showValue(newValue){ document.getElementById("range").innerHTML=newValue;}
 
-
-        .col-md-6
-            //actual input bar
-            +input("text","txtName","Eg: Sexy Hats","Product Search")
+        form(id = 'searchbox', name ='search', action='/search', method='GET')
+            .col-md-2
+                p Minimum Price
+                input(type="range" min="0" max="500" value="0" step="50" onchange="showMinValue(this.value)" name = "minprice")
+                span(id="minrange")
+                p Maximum Price
+                input(type="range" min="0" max="500" value="0" step="50" onchange="showMaxValue(this.value)" name = "maxprice")
+                span(id="maxrange")
+                script.
+                    function showMinValue(newValue){ document.getElementById("minrange").innerHTML=newValue;}
+                script.
+                    function showMaxValue(newValue) {
+                        document.getElementById("maxrange").innerHTML = newValue;
+                    }
+            .col-md-6
+                    +input("text","txtName","Eg: Sexy Hats","Product Search", value = "searchbar")
+                    +submit("Search")
 
 
     .results
         .col-md-2
 
         .col-md-2
-            .instanceBox
-                h1 header
-                img(src='images/logo.png', alt='logo',style='width:50px;height:50px;')
-                p price
-            .instanceBox
-                h1 header
-                img(src='images/logo.png', alt='logo',style='width:50px;height:50px;')
-                p price
 
-            .instanceBox
-                 h1 header
-                 img(src='images/logo.png', alt='logo',style='width:50px;height:50px;')
-                 p price
-            .instanceBox
-                h1 header
-                img(src='images/logo.png', alt='logo',style='width:50px;height:50px;')
-                p price
+           each value in results
+               .instanceBox
+                   h1 #{value.name}
+                   img(src=value.image, alt='logo',style='width:50px;height:50px;')
+                   p #{value.price}
 
