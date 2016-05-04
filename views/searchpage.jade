@@ -1,0 +1,74 @@
+//
+   Created by rob on 4/05/16.
+
+extends ../node_modules/jade-bootstrap/_bootstrap
+
+head
+    title=title
+
+block body
+    .row
+        .col-xs-1
+            h1 Hats
+        .col-xs-6
+            img(src='images/logo.png', alt='logo',style='width:70px;height:70px;')
+        .col-xs-4
+            +navbar("","dropdown_menu")
+                +nav_item("index.html","active") Home
+                +nav_item("about.html") About
+                +nav_item("contact.html") Contact
+    //- +nav-pills-pull-right([{text:"Home",href:"#"},{text:"Profile",href:"#"},{text:"Message",href:"#"}],0)
+    +navbar("","dropdown_menu")
+        //- +nav_item("index.html","active") Home
+        //- +nav_item("about.html") About
+        //- +nav_item("contact.html") Contact
+        +nav_item_dropdown("#")(label="Women")
+            +nav_item("#") Top Hats
+            +nav_item("#") Beanies
+            +nav_item("#") Caps
+            //- +nav_divider
+            //- +nav_header Nav header
+            //- +nav_item("#") Separated link
+            //- +nav_item("#") One more separated link
+        +nav_item_dropdown("#")(label="Men")
+            +nav_item("#") Top Hats
+            +nav_item("#") Beanies
+            +nav_item("#") Caps
+
+    .row
+        .col-md-2
+        .col-md-2
+            p Price Range
+            input(type="range" min="0" max="500" value="0" step="50" onchange="showValue(this.value)")
+            span(id="range")
+            script.
+                function showValue(newValue){ document.getElementById("range").innerHTML=newValue;}
+
+
+        .col-md-6
+            //actual input bar
+            +input("text","txtName","Eg: Sexy Hats","Product Search")
+
+
+    .results
+        .col-md-2
+
+        .col-md-2
+            .instanceBox
+                h1 header
+                img(src='images/logo.png', alt='logo',style='width:50px;height:50px;')
+                p price
+            .instanceBox
+                h1 header
+                img(src='images/logo.png', alt='logo',style='width:50px;height:50px;')
+                p price
+
+            .instanceBox
+                 h1 header
+                 img(src='images/logo.png', alt='logo',style='width:50px;height:50px;')
+                 p price
+            .instanceBox
+                h1 header
+                img(src='images/logo.png', alt='logo',style='width:50px;height:50px;')
+                p price
+
