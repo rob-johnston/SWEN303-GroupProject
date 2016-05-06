@@ -1,0 +1,52 @@
+//
+    Created by Alex on 4/05/2016
+
+extends ../node_modules/jade-bootstrap/_bootstrap
+
+head
+    title=title
+
+block body
+    //Load the static navbar -------------------------------------------------------
+    .row
+        .col-xs-1
+            h1 Hats
+        .col-xs-6
+            img(src='images/logo.png', alt='logo',style='width:70px;height:70px;')
+        .col-xs-4
+            +navbar("","dropdown_menu")
+                +nav_item("index.html","active") Home
+                +nav_item("about.html") About
+                +nav_item("contact.html") Contact
+    //- +nav-pills-pull-right([{text:"Home",href:"#"},{text:"Profile",href:"#"},{text:"Message",href:"#"}],0)
+    +navbar("","dropdown_menu")
+        //- +nav_item("index.html","active") Home
+        //- +nav_item("about.html") About
+        //- +nav_item("contact.html") Contact
+        +nav_item_dropdown("#")(label="Women")
+            +nav_item("#") Top Hats
+            +nav_item("#") Beanies
+            +nav_item("#") Caps
+            //- +nav_divider
+            //- +nav_header Nav header
+            //- +nav_item("#") Separated link
+            //- +nav_item("#") One more separated link
+        +nav_item_dropdown("#")(label="Men")
+            +nav_item("#") Top Hats
+            +nav_item("#") Beanies
+            +nav_item("#") Caps
+            //End loading static navbar --------------------------------------------
+    //Get passed individual listing data in "results"
+    //Display this data on the page in a meaningful way
+    .row
+        .col-md-5
+            img(src=results.image, alt='logo',style='width:500px;height:500px;')
+        .col-md-5
+            h3| #{results.listingTitle}
+            p| Price: $#{results.price}
+            p| More relevant info here...
+            button(type="submit", onclick=) Buy now
+
+    .row
+        .col-md-5
+            p| Description: #{results.description}
