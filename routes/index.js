@@ -35,7 +35,7 @@ router.get('/search', function(req, res, next) {
 
   console.log("client is searching for...");
   console.log("a hat with " + urlparts.query.searchbar);
-  console.log("between " + urlparts.query.minprice + "vand " + urlparts.query.maxprice + " dollars");
+  console.log("between " + urlparts.query.minprice + " and " + urlparts.query.maxprice + " dollars");
   res.render('searchpage', { results: resultsArray});
 
   });
