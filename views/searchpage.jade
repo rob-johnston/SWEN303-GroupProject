@@ -56,6 +56,9 @@ block body
                     +input("text","txtName","Eg: Sexy Hats","Product Search", value = "searchbar")
                     +submit("Search")
 
+            +checkbox-inline("1")
+            +checkbox-inline("2")
+            +checkbox-inline("3")
 
     .results
         .col-md-2
@@ -64,6 +67,7 @@ block body
 
            each value in results
                .instanceBox
+                   h1 working
                    h1 #{value.name}
                    img(src=value.image, alt='logo',style='width:50px;height:50px;')
                    p #{value.price}
