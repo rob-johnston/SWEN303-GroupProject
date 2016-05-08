@@ -1,63 +1,38 @@
 extends ../node_modules/jade-bootstrap/_bootstrap
-
+append(rel="stylesheet",href="stylesheets/style.css")
 head
 	title=title
+	//meta(name="viewport" content="width=device-width, initial-scale=1")
+append styles
+	link(rel="stylesheet", href="/stylesheets/jumbotron-narrow.css")
+	link(rel="stylesheet" href="/stylesheets/style.css")
+block body	
+	.container 
+		.header 
+			include ./partials/header.jade
+		include ./partials/navbar.jade
+	.container
+		.row
+			.col-md-4
+				.center
+					h2 Trending
+					p 
+						img(src='images/1.jpg', alt='logo',style='width:100%;height:100%;')
+					p
+						a.btn.btn-default(href="#",role="button") View details &raquo;
+			.col-md-4
+				.center
+					h2 Popular
+					p
+						img(src='images/2.jpg', alt='logo',style='width:100%;height:100%;')
+					p
+						a.btn.btn-default(href="#",role="button") View details &raquo;
+			.col-md-4
+				.center
+					h2 New
+					p
+						img(src='images/3.jpg', alt='logo',style='width:100%;height:100%;')
+					p
+						a.btn.btn-default(href="#",role="button") View details &raquo;
 	
-block body
-	.row
-		.col-xs-1
-			h1 Hats
-		.col-xs-6
-			img(src='images/logo.png', alt='logo',style='width:70px;height:70px;')
-		.col-xs-4
-			+navbar("","dropdown_menu")
-				+nav_item("index.html","active") Home
-				+nav_item("about.html") About
-				+nav_item("contact.html") Contact
-	//- +nav-pills-pull-right([{text:"Home",href:"#"},{text:"Profile",href:"#"},{text:"Message",href:"#"}],0)
-	+navbar("","dropdown_menu")
-		//- +nav_item("index.html","active") Home
-		//- +nav_item("about.html") About
-		//- +nav_item("contact.html") Contact
-		+nav_item_dropdown("#")(label="Women")
-			+nav_item("#") Top Hats
-			+nav_item("#") Beanies
-			+nav_item("#") Caps
-			//- +nav_divider
-			//- +nav_header Nav header
-			//- +nav_item("#") Separated link
-			//- +nav_item("#") One more separated link
-		+nav_item_dropdown("#")(label="Men")
-			+nav_item("#") Top Hats
-			+nav_item("#") Beanies
-			+nav_item("#") Caps
-	h1 Trending hats
-	+carousel("Top hats",[
-	{image:"images/1.jpg"},
-	{image:"images/2.jpg"},
-	{image:"images/3.jpg"},
-	])
-	h1 Popular hats
-	+carousel("Top hats",[
-	{image:"images/1.jpg"},
-	{image:"images/2.jpg"},
-	{image:"images/3.jpg"},
-	])
-	h1 New hats
-	+carousel("Top hats",[
-	{image:"images/1.jpg"},
-	{image:"images/2.jpg"},
-	{image:"images/3.jpg"},
-	])
-	//- +navbar("Colenso","dropdown_menu")
-	//- 	
-	//- 			
-	//- 	+nav_item("/search") Search
-	//- 		span
-	//- 			+icon("search")
-	//- 	+nav_item("/add") Add
-	//- 		span
-	//- 			+icon("plus")
-	//- 	+nav_item("/history") History
-	//- 		span
-	//- 			+icon("th-list")
+	
