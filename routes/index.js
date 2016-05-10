@@ -5,6 +5,15 @@ var db = require("../db.js"); //Is this the best way to reference the database?
 var searchDatabase = require("../search.js");
 var viewlisting = require("../viewlisting.js");
 
+//////////////authentication stuff - in progress/////////
+var auth = require('http-auth');
+var basic = auth.basic({
+    realm: "Fam",
+    file: __dirname + "/../users.htpasswd" // testusername : testpassword
+});
+////////////////////////////////////////////////
+
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -38,6 +47,13 @@ router.get('/search', function(req, res, next) {
         //render results to page
         res.render('searchpage', { results: resultsArray});
     });
+});
+
+
+//router.use(auth.connect(basic));
+// Setup route.
+router.get('/auth',auth.connect(basic), function(req, res){
+    res.send("Well done you have logged in like a boss - " + req.user + "!");
 });
 
 module.exports = router;
