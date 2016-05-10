@@ -6,6 +6,7 @@ CREATE TABLE "Listing" (
 	`ListingDesc`	TEXT,
 	`ListingPrice`	REAL NOT NULL,
 	`ListingImage`	TEXT,
+	'isDeleted' INTEGER DEFAULT 0,
 	FOREIGN KEY(SellerKey) REFERENCES User(UserKey)
 	FOREIGN KEY(TypeKey) REFERENCES Type(TypeKey)
 );
