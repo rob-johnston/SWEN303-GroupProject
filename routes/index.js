@@ -23,9 +23,14 @@ router.get('/', function(req, res, next) {
 router.get('/listing', function(req, res, next) {
     //Get the individual listing ID from the url.
     var urlparts = url.parse(req.url, true);
+    //For testing, if no listing id is passed in, set it to a default (the first record of the database)
+    if (urlparts.query.ListingKey == null) {
+        urlparts.query.ListingKey = 1;
+    }
     //Pass to viewlisting file to get the results
     viewlisting.getlisting(urlparts, function (resultsArray){
-        //render results to page
+        console.log(resultsArray);
+        //render listing to page
         res.render('listing', { title: "listing", results: resultsArray});
     });
 });

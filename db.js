@@ -8,7 +8,8 @@
     //Placeholder. Need to flesh this puppy out more
     module.exports = {
         db: db,
-        getActiveListings: getActiveListings
+        getActiveListings: getActiveListings,
+        getListing: getListing
     };
 
     //db.each('SELECT * FROM Colour', function(err, res){
@@ -36,6 +37,17 @@
      */
     function getUserListings(key, cb){
         var stmt = 'SELECT * FROM VListing WHERE SellerKey = ?';
+
+        db.get(stmt, [key], cb);
+    }
+
+    /**
+     * Returns the listing matching Listing key
+     * @param key Listing key
+     * @param cb callback function
+     */
+    function getListing(key, cb){
+        var stmt = 'SELECT * FROM Listing WHERE ListingKey = ?';
 
         db.get(stmt, [key], cb);
     }
