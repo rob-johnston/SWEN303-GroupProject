@@ -12,3 +12,29 @@ block body
 			include ./partials/header.jade
 		include ./partials/navbar.jade
 		
+	.container
+		.row
+			.col-md-7
+				form(action="sellerAdd",method="get",id="form1")
+					p Listing title
+					input(class="form-control",type="text", name="ListingTitle", placeholder="title")
+					//How should colours be submitted? Number of each colour, or only allow up to 1 for each colour?
+					p Colours in stock
+					input(type="checkbox",name="Red")
+					p Description
+					input(class="form-control",type="text", name="ListingDesc", placeholder="description")
+					p
+					//+checkbox-inline(name="Red")
+					input(type="submit", value="Submit")
+				//+input("text","txtName","Title","Listing title")
+				//+input("text","description","Description","Description")
+				//+checkbox-inline("Red")
+				//+checkbox-inline("Blue")
+				//+checkbox-inline("Green")
+				//p
+				//+radio-inline("Top Hat")
+				//+radio-inline("Cap")
+				//+radio-inline("Sombrero")
+				//p
+				//+submit("Submit")
+			//button(type="submit",form="form1",value="Submit") Submit
