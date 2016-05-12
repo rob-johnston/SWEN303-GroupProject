@@ -25,7 +25,7 @@
      * @param cb callback function
      */
     function getActiveListings(cb) {
-        var stmt = 'SELECT * FROM VListing WHERE isDeleted == 0';
+        var stmt = 'SELECT * FROM Listing WHERE isDeleted == 0';
 
         db.get(stmt, cb);
     }
