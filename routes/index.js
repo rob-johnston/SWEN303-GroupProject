@@ -31,6 +31,11 @@ router.get('/listing', function(req, res, next) {
     });
 });
 
+/*seller view page*/
+router.get('/seller',function(req,res,next){
+  res.render('sellerView');
+})
+
 /* GET sellerAdd page. */
 router.get('/sellerAdd', function(req, res, next) {
     //Get the possible colours from the database
@@ -105,4 +110,3 @@ router.get('/auth',auth.connect(basic), function(req, res){
 });
 
 module.exports = router;
-

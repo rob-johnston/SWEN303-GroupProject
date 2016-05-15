@@ -9,9 +9,18 @@ append styles
 block body	
 	.container 
 		.header 
-			include ./partials/header.jade
+			if(login)
+				include ./partials/headerLoggedIn.jade
+			else
+				include ./partials/header.jade
 		include ./partials/navbar.jade
 	.container
+		.jumbotron
+				h1 Welcome to Hats!
+				p.lead
+					|Don't have an account? No worries! Sign up for free today and get a	FREE $5 voucher! 
+				p
+					a.btn.btn-lg.btn-success(href='#', role='button') Sign up!
 		.row
 			.col-md-4
 				.center

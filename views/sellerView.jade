@@ -9,6 +9,53 @@ append styles
 block body	
 	.container 
 		.header 
-			include ./partials/header.jade
-		include ./partials/navbar.jade
+			include ./partials/headerSeller.jade
+		include ./partials/navbarSeller.jade
+		//- a(href='shop.html')
+		//- 	p(style='float:right') Add a listing
+		//- 	span.glyphicon.glyphicon-plus-sign(style="font-size:3em;float:right")
 		
+		.col-md-3
+				img(src="images/profile.png")
+		.col-md-4
+				h2 Joely Huang
+				a(href='shop.html')
+					span.glyphicon.glyphicon-edit(style="font-size:2em;float:right")
+				h4 Company
+				p hat collector
+				h4 Contact
+				p lslsl@gmail.com
+				//- button.btn.btn-default.btn-lg(type='button')
+				//- 	span.glyphicon.glyphicon-plus-sign
+	.container		
+		.padding
+			#span(style="font-size:2em;")
+				br
+				span.glyphicon.text-danger.glyphicon-heart
+				span.glyphicon.text-danger.glyphicon-heart
+				span.glyphicon.text-danger.glyphicon-heart
+				span.glyphicon.text-danger.glyphicon-heart
+				span.glyphicon.text-danger.glyphicon-heart-empty
+				br
+			h2(style='font-style:bold') Reviews
+			br
+			br
+			.col-md-2
+				img(src="images/p1.jpg")
+				br
+			.col-md-8
+				#span(style="font-size:1.2em;")
+					br
+					span.glyphicon.text-danger.glyphicon-heart
+					span.glyphicon.text-danger.glyphicon-heart
+					span.glyphicon.text-danger.glyphicon-heart
+					span.glyphicon.text-danger.glyphicon-heart
+					span.glyphicon.text-danger.glyphicon-heart-empty
+					br
+					
+				h4 Claudia Polik
+				p
+					|Very good hats. Good quality and good price.
+		
+				
+				
