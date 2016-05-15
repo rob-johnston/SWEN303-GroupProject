@@ -16,16 +16,29 @@ block body
 		//- 	span.glyphicon.glyphicon-plus-sign(style="font-size:3em;float:right")
 		#padding
 			h2(style="padding-left: 10px;") Listings
+			a(href='/sellerAdd')
+				span.glyphicon.glyphicon-plus-sign(style="font-size:3em;float:right")
 			br
 			br
-			+panel-default("Default Panel")
+			+panel-default("Name of Hat")
 				.col-md-2
-					img(src="images/p1.jpg")
+					img.listing(src="images/1.jpg")
 					br
 				.col-md-6
-					h4 Claudia Polik
+					h4 Price
+					p $16
+					h4 Description
 					p
 						|Very good hats. Good quality and good price.
+
+				.col-md-2
+
+					+table(["Colour","Quantity"],[
+					["Black","15"],
+					["White","10"],
+					["Blue","20"]
+					],"table-striped table-bordered")
+
 			+panel-default("Default Panel")
 				.col-md-2
 					img(src="images/p1.jpg")
