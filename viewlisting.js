@@ -9,27 +9,18 @@
     //need a more complex search
 
     module.exports.getlisting = function(params, callback){
-        //not actually using the search parameters,
-        //This data will be obtained from the database - default info at the moment
-        // ------------------------------------------------------------------------
-        var price = 2.00;
-        var description = "Description";
-        var listingTitle = "tempTitle";
-        var image = "images/3.jpg";
-        // ------------------------------------------------------------------------
-        var resultsArray = {listingTitle: listingTitle, description: description, price: price, image: image};
-        callback(resultsArray);
-        /*
-        db.each('SELECT * FROM Colour', function (err, res) {
+        //For testing, if no listing id is passed in, set it to a default (the first record of the database)
+        if (params.query.ListingKey == null) {
+            params.query.ListingKey = 1;
+        }
+        var listingKey = params.query.ListingKey;
+        //Get listing from database
+        db.getListing(listingKey,function (err, res) {
             if (err) {
                 console.log(err);
             } else {
-                //console.log(res);
-                results.push(res);
+                callback(res);
             }
-        }, function(err,rows){
-            callback(results);
         });
-        */
     }
 })();

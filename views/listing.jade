@@ -21,13 +21,13 @@ block body
     .container
         .row
             .col-md-7
-                img(src=results.image, alt='logo',style='width:500px;height:500px;')
+                img(src=results.ListingImage, alt='logo',style='width:500px;height:500px;')
             .col-md-3
-                h2| #{results.listingTitle}
-                p| Price: $#{results.price}
-                p| More relevant info here...
+                h2 #{results.ListingTitle}
+                p Price: $#{results.ListingPrice}
+                p More relevant info here...
                 a.btn.btn-default(href="#",role="button") Buy now
 
         .row
             .col-md-6
-                p| Description: #{results.description}
+                p Description: #{results.ListingDesc}
