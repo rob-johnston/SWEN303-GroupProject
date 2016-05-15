@@ -34,7 +34,13 @@ router.get('/listing', function(req, res, next) {
 /*seller view page*/
 router.get('/seller',function(req,res,next){
   res.render('sellerView');
-})
+});
+
+/*seller view page*/
+router.get('/sellerListing',function(req,res,next){
+  res.render('sellerListing');
+});
+
 
 /* GET sellerAdd page. */
 router.get('/sellerAdd', function(req, res, next) {
