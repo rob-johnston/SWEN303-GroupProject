@@ -9,7 +9,9 @@
     module.exports = {
         db: db,
         getActiveListings: getActiveListings,
-        getListing: getListing
+        getListing: getListing,
+        getAllColours: getAllColours,
+        addListing:addListing
     };
 
     //db.each('SELECT * FROM Colour', function(err, res){
@@ -28,6 +30,16 @@
         var stmt = 'SELECT * FROM Listing WHERE isDeleted == 0';
 
         db.get(stmt, cb);
+    }
+
+    /**
+     * Returns all the colours from the database
+     * @param cb callback function
+     */
+    function getAllColours(cb) {
+        var stmt = 'SELECT * FROM Colour';
+
+        db.each(stmt, cb);
     }
 
     /**
