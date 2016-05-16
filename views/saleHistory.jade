@@ -1,0 +1,52 @@
+extends ../node_modules/jade-bootstrap/_bootstrap
+append(rel="stylesheet",href="stylesheets/style.css")
+head
+	title=title
+	//meta(name="viewport" content="width=device-width, initial-scale=1")
+append styles
+	link(rel="stylesheet", href="/stylesheets/jumbotron-narrow.css")
+	link(rel="stylesheet" href="/stylesheets/style.css")
+block body	
+	.container 
+		.header 
+			include ./partials/headerSeller.jade
+		include ./partials/navbarSeller.jade
+		//- a(href='shop.html')
+		//- 	p(style='float:right') Add a listing
+		//- 	span.glyphicon.glyphicon-plus-sign(style="font-size:3em;float:right")
+		#padding
+			h2(style="padding-left: 10px;") Sale History
+			a(href='/sellerAdd')
+				span.glyphicon.glyphicon-plus-sign(style="font-size:3em;float:right")
+			br
+			br
+			+panel-default("Name of Hat")
+				.col-md-2
+					img.listing(src="images/1.jpg")
+					br
+				.col-md-6
+					h4 Price
+					p $16
+					h4 Description
+					p
+						|Very good hats. Good quality and good price.
+
+				.col-md-2
+
+					+table(["Colour","Quantity Sold", "Remaining Quantity"],[
+					["Black","5","15"],
+					["White","1","10"],
+					["Blue","4","20"]
+					],"table-striped table-bordered")
+
+			+panel-default("Default Panel")
+				.col-md-2
+					img(src="images/p1.jpg")
+					br
+				.col-md-6
+					h4 Claudia Polik
+					p
+						|Very good hats. Good quality and good price.
+		
+				
+				

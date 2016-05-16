@@ -9,7 +9,7 @@ append styles
 block body	
 	.container 
 		.header 
-			if(login)
+			if(user.loggedIn)
 				include ./partials/headerLoggedIn.jade
 			else
 				include ./partials/header.jade

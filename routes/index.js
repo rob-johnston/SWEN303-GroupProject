@@ -12,7 +12,7 @@ var user = {
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { user:user });
 });
 
 /* GET listing page. */
@@ -32,9 +32,14 @@ router.get('/seller',function(req,res,next){
   res.render('sellerView');
 });
 
-/*seller view page*/
+/*seller listings page*/
 router.get('/sellerListing',function(req,res,next){
   res.render('sellerListing');
+});
+
+/*seller sale history*/
+router.get('/saleHistory',function(req,res,next){
+  res.render('saleHistory');
 });
 
 
