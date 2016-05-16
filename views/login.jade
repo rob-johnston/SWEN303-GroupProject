@@ -1,0 +1,40 @@
+//
+   Created by rob on 14/05/16.
+extends ../node_modules/jade-bootstrap/_bootstrap
+append(rel="stylesheet",href="stylesheets/style.css")
+head
+    title=title
+    //meta(name="viewport" content="width=device-width, initial-scale=1")
+append styles
+    link(rel="stylesheet", href="/stylesheets/jumbotron-narrow.css")
+    link(rel="stylesheet" href="/stylesheets/style.css")
+block body
+    .container
+        .header
+            include ./partials/header.jade
+        include ./partials/navbar.jade
+
+    form.well(id='form-login', method='post')
+        h2 Welcome to Hats!
+        h6 Please Login or Create a New Account
+        .form-group
+            label Username
+            input.form-control(type='text', id='user-tf', name='user')
+        .form-group
+            label Password
+            input.form-control(type='password', id='pass-tf', name='pass')
+        .controls
+            button(type='button').btn.btn-default.button-rememember-me
+                span.glyphicon.glyphicon-unchecked.button-rememember-me-glyph
+                | Remember Me
+            button(type='submit').btn.btn-primary.button-sign-in
+                span.glyphicon.glyphicon-lock
+                | Sign In
+        .clearfix
+            hr
+            .btm-links
+                #forgot-password
+                    a(href='#') Forgot Your Password?
+                #create-account
+                    a(href='/signup') Create An Account
+            .clearfix

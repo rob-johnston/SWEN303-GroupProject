@@ -1,18 +1,14 @@
 var express = require('express');
+var session = require('express-session');
 var router = express.Router();
 var url = require('url');
 var db = require("../db.js"); //Is this the best way to reference the database?
 var searchDatabase = require("../search.js");
 var viewlisting = require("../viewlisting.js");
 
-//authentication stuff
-var auth = require('http-auth');
-var basic = auth.basic({
-    realm: "Fam",
-    file: __dirname + "/../users.htpasswd" // testusername : testpassword
-});
-
-
+var user = {
+    username:"", email:"", loggedIn: false
+};
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
@@ -66,12 +62,25 @@ router.get('/search', function(req, res, next) {
 
 
 /* Setup route.*/
-router.get('/auth',auth.connect(basic), function(req, res){
-    res.send("Well done you have logged in like a boss - " + req.user + "!");
-    //will actually need a page to render here
-    //need to take req.user to get username, search the DB for listings belonging to that user
-    //then render them to a special sellers page that gives them the ability to change/remove listings etc
+router.get('/admin', function(req, res){
+    if(!user.loggedIn){
+        res.send("fuck off");
+    } else
+    {
+        res.send("yes you are now allowed to see this page");
+    }
 });
+
+/* Setup route.*/
+router.get('/login', function(req, res){
+      res.render('login');
+});
+
+router.get('/logout', function(req, res){
+    user.loggedIn=false;
+    res.send("youve logged out");
+});
+
 
 module.exports = router;
 
