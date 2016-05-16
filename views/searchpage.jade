@@ -46,6 +46,7 @@ block body
                 p Maximum Price
                 input(type="range" min="0" max="500" value="0" step="50" onchange="showMaxValue(this.value)" name = "maxprice")
                 span(id="maxrange")
+
                 script.
                     function showMinValue(newValue){ document.getElementById("minrange").innerHTML=newValue;}
                 script.
@@ -53,22 +54,32 @@ block body
                         document.getElementById("maxrange").innerHTML = newValue;
                     }
             .col-md-6
+                    label
+                    input(type="checkbox", name="red")
+                    |   red
+                    p
+                    input(type="checkbox", name="black")
+                    |   black
+                    p
+                    input(type="checkbox", name="blue")
+                    |   blue
+                    p
                     +input("text","txtName","Eg: Sexy Hats","Product Search", value = "searchbar")
                     +submit("Search")
 
-            +checkbox-inline("1")
-            +checkbox-inline("2")
-            +checkbox-inline("3")
+
 
     .results
         .col-md-2
 
         .col-md-2
+            //
 
-           each value in results
-               .instanceBox
-                   h1 working
-                   h1 #{value.ListingTitle}
-                   img(src='/images/'+value.ListingImage, alt='logo',style='width:50px;height:50px;')
-                   p #{value.ListingPrice}
 
+        .col-md-8
+            each value in results
+                .instanceBox
+                    h1 working
+                    h1 #{value.ListingTitle}
+                    img(src='/images/' + value.ListingImage, alt='logo',style='width:50px;height:50px;')
+                    p #{value.ListingPrice}
