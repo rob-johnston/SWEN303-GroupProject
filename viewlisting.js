@@ -14,9 +14,8 @@
             params.query.ListingKey = 1;
         }
         var listingKey = params.query.ListingKey;
-        //Will eventually use this db function, but at the moment using SQL directly
-        //db.getListing(listingKey,callback);
-        db.db.get('SELECT * FROM Listing WHERE ListingKey = ?', [listingKey], function (err, res) {
+        //Get listing from database
+        db.getListing(listingKey,function (err, res) {
             if (err) {
                 console.log(err);
             } else {

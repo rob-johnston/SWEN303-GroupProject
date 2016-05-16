@@ -17,13 +17,21 @@ block body
 			.col-md-7
 				form(action="sellerAdd",method="get",id="form1")
 					p Listing title
-					input(class="form-control",type="text", name="ListingTitle", placeholder="title")
+					input(class="form-control",type="text", name="ListingTitle", placeholder="title",required)
 					//How should colours be submitted? Number of each colour, or only allow up to 1 for each colour?
 					p Colours in stock
-					input(type="checkbox",name="Red")
+					//Not working because array is being passed in asynchronously (not in order) so it is empty...
+					p #{colours.ColourKey}
+					each value in colours
+						//var colourKey = #{value.ColourKey}
+						input(type="checkbox",name="Red")
+					//input(type="checkbox",name="Red")
 					p Description
-					input(class="form-control",type="text", name="ListingDesc", placeholder="description")
-					p
+					textarea(class="form-control",rows="10", name="ListingDesc", placeholder="description")
+					p Price
+					input(class="form-control",type="number",step="0.01", name="ListingPrice", placeholder="0")
+					p Listing image upload
+					input(type="file",name="ListingImage")
 					//+checkbox-inline(name="Red")
 					input(type="submit", value="Submit")
 				//+input("text","txtName","Title","Listing title")

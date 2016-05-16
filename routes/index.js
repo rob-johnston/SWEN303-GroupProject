@@ -27,16 +27,58 @@ router.get('/listing', function(req, res, next) {
     });
 });
 
+/*seller view page*/
+router.get('/seller',function(req,res,next){
+  res.render('sellerView');
+});
+
+/*seller view page*/
+router.get('/sellerListing',function(req,res,next){
+  res.render('sellerListing');
+});
+
+
 /* GET sellerAdd page. */
 router.get('/sellerAdd', function(req, res, next) {
+    //Get the possible colours from the database
+    var colours = [];
+    db.getAllColours(function (err, res2) {
+        if (err) {
+            console.log(err);
+        } else {
+            //Having issues where colours array stays empty, as parts of this method are called asynchronously
+            //Still need to fix this
+            colours.push(res2);
+            //console.log(colours);
+        }
+    });
+    //console.log(colours);
     if (req.query.ListingTitle == null) {
         //If no data has been submitted, display the add a listing page (sellerAdd)
-        res.render('sellerAdd', { title: 'Add a listing' });
+
+        res.render('sellerAdd', {title: 'Add a listing', colours: colours });
     } else {
         //If data has been submitted, create a new listing record in the database
-        
+        var SellerKey = 1; //Default for now. This should be passed in depending on the auth type we use.
+        var TypeKey = 1; //Default for now. Will be passed from res.query.TypeKey
+        var ListingTitle = req.query.ListingTitle;
+        var ListingDesc = req.query.ListingDesc;
+        var ListingPrice = req.query.ListingPrice;
+        var ListingImage = "images/2.jpg"; //Default for now. This part will need an upload feature.
+        //Before adding data to the database, first check the data is in the right format (int, string, etc.)
+
+        //Now add the data to the listing table
+        /* Commented out while testing the sellerAdd page
+        db.addListing(SellerKey,TypeKey,ListingTitle,ListingDesc,ListingPrice,ListingImage,function(err, res2) {
+            if (err) {
+                console.log(err);
+            }
+        });
+        */
+        //Will then need to add records to ListingColour and ListingSize tables.
+
         //Then, display the listing on the listing page?? Or go back to the sellerAdd page?
-        res.render('sellerAdd', { title: 'Express' });
+        res.render('sellerAdd', {title: 'Add a listing', colours: colours });
     }
 });
 
@@ -83,4 +125,3 @@ router.get('/logout', function(req, res){
 
 
 module.exports = router;
-
