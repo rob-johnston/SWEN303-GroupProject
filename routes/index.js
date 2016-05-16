@@ -113,6 +113,17 @@ router.get('/admin', function(req, res){
     }
 });
 
+router.post('/login', function(req, res){
+
+    //check database for pass assigned to username
+    //if it checks out
+    user.username=req.body.user;
+    user.loggedIn=true;
+    res.render('login');
+
+    //otherwise render error message
+});
+
 /* Setup route.*/
 router.get('/login', function(req, res){
       res.render('login');
@@ -120,6 +131,7 @@ router.get('/login', function(req, res){
 
 router.get('/logout', function(req, res){
     user.loggedIn=false;
+    user.username="";
     res.send("youve logged out");
 });
 
