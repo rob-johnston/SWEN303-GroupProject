@@ -56,6 +56,22 @@ router.get('/removeItem/:index',function(req,res,next){
   res.redirect('/cart');
 });
 
+/**checkout page**/
+router.get('/checkout',function(req,res,next){
+  res.render('checkout',{user:user});
+});
+
+/**confirmation page**/
+router.get('/confirmation',function(req,res,next){
+  user.cart=[];
+  res.redirect('/checkedOut');
+});
+
+router.get('/checkedOut',function(req,res,next){
+  res.render('confirmation',{user:user});
+});
+
+
 
 /*seller view page*/
 router.get('/seller',function(req,res,next){

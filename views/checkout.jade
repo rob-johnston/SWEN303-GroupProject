@@ -1,0 +1,36 @@
+extends ../node_modules/jade-bootstrap/_bootstrap
+append(rel="stylesheet",href="stylesheets/style.css")
+head
+	title=title
+	//meta(name="viewport" content="width=device-width, initial-scale=1")
+append styles
+	link(rel="stylesheet", href="/stylesheets/jumbotron-narrow.css")
+	link(rel="stylesheet" href="/stylesheets/style.css")
+block body	
+	.container 
+		.header 
+			include ./partials/header.jade
+		include ./partials/navbar.jade
+		
+	.container
+		.row
+			.col-md-7
+				form(action="confirmation",method="get",id="ship")
+					p Name
+					input(class="form-control",type="text", name="ListingTitle", value=user.username,required)
+					//How should colours be submitted? Number of each colour, or only allow up to 1 for each colour?
+					p Address
+					p Street Address
+					input(class="form-control",type="text", name="streetadd", placeholder="E.g. 86 Polland Street",required)
+					p Suburb
+					input(class="form-control",type="text", name="suburb", placeholder="E.g. Island Bay",required)
+					p City
+					input(class="form-control",type="text", name="City", placeholder="E.g. Wellington",required)
+					p Country
+					input(class="form-control",type="text", name="country", placeholder="E.g. New Zealand",required)
+					p Postcode
+					input(class="form-control",type="text", name="postcode", placeholder="E.g. 5986",required)
+					//Not working because array is being passed in asynchronously (not in order) so it is empty...
+				
+					
+					input(type="submit", value="Submit")
