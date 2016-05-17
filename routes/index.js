@@ -6,13 +6,23 @@ var db = require("../db.js"); //Is this the best way to reference the database?
 var searchDatabase = require("../search.js");
 var viewlisting = require("../viewlisting.js");
 
+var item = {
+    name: "top hat",
+    imageString: "images/1.jpg",
+    price: "$16"
+}
+
+
+
+var cart = [item];
 var user = {
-    username:"", email:"", loggedIn: false
+    username:"", email:"", loggedIn: false, cart
 };
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { user:user });
+    res.render('index', { user:user });
 });
 
 /* GET listing page. */
@@ -25,6 +35,11 @@ router.get('/listing', function(req, res, next) {
         //render listing to page
         res.render('listing', { title: "listing", results: resultsArray});
     });
+});
+
+/*cart*/
+router.get('/cart',function(req,res,next){
+  res.render('cart');
 });
 
 /*seller view page*/

@@ -9,10 +9,19 @@ append styles
 block body	
 	.container 
 		.header 
-			if(user.loggedIn)
+			if(!user.loggedIn)
 				include ./partials/headerLoggedIn.jade
 			else
 				include ./partials/header.jade
+
+			//shopping cart
+			a(href='/cart')
+				#para(style='float:right; font-size:1.5em;color:red') 
+					p(style='display:inline') (
+					p(style='display:inline')=user.cart.length
+					p(style='display:inline') ) 
+				span.glyphicon.glyphicon-shopping-cart.black(style="font-size:2.5em;float:right")
+			br
 		include ./partials/navbar.jade
 	.container
 		.jumbotron
