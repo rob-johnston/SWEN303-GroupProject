@@ -8,13 +8,20 @@ var viewlisting = require("../viewlisting.js");
 
 var item = {
     name: "top hat",
-    imageString: "images/1.jpg",
-    price: "$16"
+    imageString: "/images/1.jpg",
+    price: 16
+}
+
+var item1 = {
+    name: "top hat",
+    imageString: "/images/1.jpg",
+    price: 16
 }
 
 
 
-var cart = [item];
+
+var cart = [item,item1];
 var user = {
     username:"", email:"", loggedIn: false, cart
 };
@@ -39,8 +46,16 @@ router.get('/listing', function(req, res, next) {
 
 /*cart*/
 router.get('/cart',function(req,res,next){
-  res.render('cart');
+  res.render('cart',{user:user});
 });
+
+/*removing item from cart*/
+router.get('/removeItem/:index',function(req,res,next){
+  var index = req.params.index;
+  user.cart.splice(index,1);
+  res.redirect('/cart');
+});
+
 
 /*seller view page*/
 router.get('/seller',function(req,res,next){

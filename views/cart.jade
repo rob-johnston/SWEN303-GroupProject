@@ -9,47 +9,40 @@ append styles
 block body  
     .container 
         .header 
-            include ./partials/headerSeller.jade
-        include ./partials/navbarSeller.jade
+            include ./partials/header.jade
+        include ./partials/navbar.jade
         //- a(href='shop.html')
         //-     p(style='float:right') Add a listing
         //-     span.glyphicon.glyphicon-plus-sign(style="font-size:3em;float:right")
         #padding
             h2(style="padding-left: 10px;") Shopping Cart
             br
-
-            .panel.panel-default
-                .panel-heading
-                    h3.panel-title Name of hat
-                        span.glyphicon.glyphicon-minus-sign.red(style="font-size:1.6em;float:right")
-                .panel-body
-                    .col-md-2
-                        img.listing(src=user.cart[0].name)
-                        br
-                    .col-md-6
-                        h4 Price
-                        p $16
-                        h4 Description
-                        p
-                            |Very good hats. Good quality and good price.
-
-                    .col-md-2
-
-                        +table(["Colour","Quantity"],[
-                        ["Black","15"],
-                        ["White","10"],
-                        ["Blue","20"]
-                        ],"table-striped table-bordered")
-
-
-            +panel-default("Default Panel")
-                .col-md-2
-                    img(src="images/p1.jpg")
-                    br
-                .col-md-6
-                    h4 Claudia Polik
-                    p
-                        |Very good hats. Good quality and good price.
-        
-                
+            br
+            -var size = user.cart.length
+            -var total = 0;
+            -for(var x = 0; x < size; x++)
+              - var name = user.cart[x].name
+              - var price = user.cart[x].price
+              - var image = user.cart[x].imageString
+              - total=total + price
+              .col-md-4
+                .panel.panel-default
+                    .panel-heading
+                        h3.panel-title=name
+                          a(href="/removeItem/" + x)
+                            span.glyphicon.glyphicon-minus-sign.red(style="font-size:1.6em;float:right")
+              
+                    .panel-body
+                        .col-md-8
+                            img.listing(src=image)
+                            br
+                        .col-md-2
+                            h4 Price
+                            //- p(style="display:inline" font-size=) $
+                            //- p(style="display:inline")=price
+                            span.glyphicon.glyphicon-usd(style="display:inline;font-size:1.2em")
+                            p(style="display:inline;font-size:1.2em")=price
+        .col-md-4
+          #size(style="font-size:1.5em")
+            +alert-i-info(total,"usd")    
                 
