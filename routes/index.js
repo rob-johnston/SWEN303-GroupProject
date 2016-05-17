@@ -32,6 +32,11 @@ router.get('/', function(req, res, next) {
     res.render('index', { user:user });
 });
 
+/* GET chinese home page. */
+router.get('/c', function(req, res, next) {
+    res.render('indexc', { user:user });
+});
+
 /* GET listing page. */
 router.get('/listing', function(req, res, next) {
     //Get the individual listing ID from the url.

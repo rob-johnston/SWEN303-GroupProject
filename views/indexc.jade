@@ -1,0 +1,103 @@
+extends ../node_modules/jade-bootstrap/_bootstrap
+append(rel="stylesheet",href="stylesheets/style.css")
+head
+	title=title
+	//meta(name="viewport" content="width=device-width, initial-scale=1")
+append styles
+	link(rel="stylesheet", href="/stylesheets/jumbotron-narrow.css")
+	link(rel="stylesheet" href="/stylesheets/style.css")
+block body	
+	.container 
+		.header 
+			if(user.loggedIn)
+				a.btn.btn-default.btn-lg.right(href="/login",role="button") 登录
+			else
+				#right(style='float:right;')
+					p= "欢迎 "
+					b=user.username
+			img.center(src='images/title.jpg', alt='logo',style='max-width:100%; height:auto;width:auto')
+			
+			.center
+				#formCenter
+					form.center(id = 'searchbox', name ='search', action='/search', method='GET')
+						.col-md-8
+							input(class="form-control" type="text",name="title",placeholder="搜索...",value=titleInput)
+						.col-md-1
+							input(class="btn btn-default" type="submit",value="搜索")
+			//shopping cart
+			a(href='/cart')
+				#para(style='float:right; font-size:1.5em;color:red') 
+					p(style='display:inline') (
+					p(style='display:inline')=user.cart.length
+					p(style='display:inline') ) 
+				span.glyphicon.glyphicon-shopping-cart.black(style="font-size:2.5em;float:right")
+			
+			
+			.navbar.navbar-default
+				.navbar-header
+					button.navbar-toggle.collapsed(type='button', data-toggle='collapse', data-target='#navbar', aria-expanded='false', aria-controls='navbar')
+						span.sr-only Toggle navigation
+						span.icon-bar
+						span.icon-bar
+						span.icon-bar
+				#navbar.navbar-collapse.collapse
+					ul.nav.navbar-nav
+						li.dropdown
+							a.dropdown-toggle(href='#', data-toggle='dropdown')
+								| Women 
+								span.caret
+							ul.dropdown-menu(role='menu')
+								li
+									a(href='#') Top Hats
+								li
+									a(href='#') Beanies
+								li
+									a(href='#') Caps
+						li.dropdown
+							a.dropdown-toggle(href='#', data-toggle='dropdown')
+								| Men 
+								span.caret
+							ul.dropdown-menu(role='menu')
+								li
+									a(href='#') Top Hats
+								li
+									a(href='#') Beanies
+								li
+									a(href='#') Caps
+					ul.nav.navbar-nav.navbar-right
+						li
+							a(href='/') Home
+						li
+							a(href='/seller') Sell 
+				//end of nav bar
+	.container
+		.jumbotron
+				h1 Welcome to Hats!
+				p.lead
+					|Don't have an account? No worries! Sign up for free today and get a	FREE $5 voucher! 
+				p
+					a.btn.btn-lg.btn-success(href='#', role='button') Sign up!
+		.row
+			.col-md-4
+				.center
+					h2 Trending
+					p 
+						img.center(src='images/1.jpg', alt='logo')
+					p
+						a.btn.btn-default(href="#",role="button") View details &raquo;
+			.col-md-4
+				.center
+					h2 Popular
+					p
+						img.center(src='images/2.jpg', alt='logo')
+					p
+						a.btn.btn-default(href="#",role="button") View details &raquo;
+			.col-md-4
+				.center
+					h2 New
+					p
+						img.center(src='images/3.jpg', alt='logo')
+					p
+						a.btn.btn-default(href="#",role="button") View details &raquo;
+	
+	
