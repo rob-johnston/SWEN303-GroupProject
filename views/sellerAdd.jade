@@ -25,7 +25,7 @@ block body
 						p #{colour.ColourName}
 						input(class="form-control",type="number",step="1", name='#{colour.ColourKey}', placeholder="0", min=0)
 					label Type of hat
-					select(class="form-control",name="type")
+					select(class="form-control",name="TypeKey")
 						each type in types
 							option(value='#{type.TypeKey}') #{type.TypeName}
 					label Description

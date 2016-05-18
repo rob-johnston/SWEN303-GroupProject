@@ -130,12 +130,13 @@ router.get('/sellerAdd', function(req, res, next) {
 
 
                         //Now add the data to the listing table
-                        /*
+
                         db.addListing(SellerKey,TypeKey,ListingTitle,ListingDesc,ListingPrice,ListingImage,function(err) {
                             if (err) {
                                 console.log(err);
                             } else {
                                 //Will then need to add records to ListingColour and ListingSize tables.
+                                /*
                                 for (var i=0; i<colours.length; i++) {
                                     var colKey = colours[i].ColourKey;
                                     if (req.query.colKey != null) {
@@ -144,10 +145,10 @@ router.get('/sellerAdd', function(req, res, next) {
                                         });
                                     }
                                 }
-
+                                */
                             }
                         });
-                        */
+
                         //Then, display the listing on the listing page?? Or go back to the sellerAdd page?
                         res.render('sellerAdd', {title: 'Add a listing', colours: colours, types: types });
                     }
