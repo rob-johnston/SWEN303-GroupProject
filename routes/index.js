@@ -77,6 +77,22 @@ router.get('/checkedOut',function(req,res,next){
   res.render('confirmation',{user:user});
 });
 
+router.get('/addToCart',function(req,res,next){
+    var ColourKey = req.query.ColourKey;
+    var ListingKey = req.query.ListingKey;
+    var ListingTitle = req.query.ListingTitle;
+    var ListingImage = "/images" + req.query.ListingImage.substring(1);
+    var ListingPrice = parseFloat(req.query.ListingPrice); //Have to parseFloat or it will be treated as a string and concatenated instead of added.
+    //console.log(ListingKey);
+    //console.log(ColourKey);
+    //console.log(ListingPrice);
+    //console.log(ListingImage);
+    //console.log(ListingTitle);
+    //Item includes the ListingKey and ColourKey so we can remove from the database on checkout.
+    var item = {name: ListingTitle, imageString: ListingImage, price: ListingPrice, ListingKey: ListingKey, ColourKey: ColourKey};
+    cart.push(item);
+    res.redirect('/cart');
+});
 
 
 /*seller view page*/
