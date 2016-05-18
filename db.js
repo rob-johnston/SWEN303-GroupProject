@@ -114,6 +114,6 @@
     function deleteListing(key, cb){
         var stmt = 'UPDATE Listing SET isDeleted = 0 WHERE ListingKey = ?';
 
-        db.get(stmt, [key], cb);
+        db.run(stmt, [key], cb);
     }
 })();
