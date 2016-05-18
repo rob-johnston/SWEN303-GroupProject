@@ -14,15 +14,15 @@ block body
 		
 		
 		.col-md-3
-				img(src="images/profile.png")
+				img(src='/images/' + seller.UserPicture)
 		.col-md-4
-				h2 Joely Huang
+				h2 #{seller.UserDisplayName}
 				a(href='shop.html')
 					span.glyphicon.glyphicon-edit(style="font-size:2em;float:right")
-				h4 Company
-				p hat collector
 				h4 Contact
-				p lslsl@gmail.com
+				p #{seller.UserContact}
+				h4 Description
+				p #{seller.UserDesc}
 				//- button.btn.btn-default.btn-lg(type='button')
 				//- 	span.glyphicon.glyphicon-plus-sign
 	.container		
@@ -38,22 +38,24 @@ block body
 			h2(style='font-style:bold') Reviews
 			br
 			br
-			.col-md-2
-				img(src="images/p1.jpg")
-				br
-			.col-md-8
-				#span(style="font-size:1.2em;")
+
+			each review in reviews
+				.col-md-2
+					img(src='/images/' + review.ReviewUserPicture)
 					br
-					span.glyphicon.text-danger.glyphicon-heart
-					span.glyphicon.text-danger.glyphicon-heart
-					span.glyphicon.text-danger.glyphicon-heart
-					span.glyphicon.text-danger.glyphicon-heart
-					span.glyphicon.text-danger.glyphicon-heart-empty
-					br
+				.col-md-8
+					#span(style="font-size:1.2em;")
+						br
+						span.glyphicon.text-danger.glyphicon-heart
+						span.glyphicon.text-danger.glyphicon-heart
+						span.glyphicon.text-danger.glyphicon-heart
+						span.glyphicon.text-danger.glyphicon-heart
+						span.glyphicon.text-danger.glyphicon-heart-empty
+						br
 					
-				h4 Claudia Polik
-				p
-					|Very good hats. Good quality and good price.
+					h4 #{review.ReviewUserName}
+					p
+						|#{review.ReviewDesc}
 		
 				
 				
