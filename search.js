@@ -20,7 +20,7 @@ var results = [];
                     console.log(err);
                 } else {
                   // console.log(res);
-                    results.push(res);
+                    results = res;
                     //call back to render the results on page
                     callback(results);
                 }
