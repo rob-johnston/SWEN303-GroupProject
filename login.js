@@ -10,18 +10,20 @@
 
     module.exports.login = function(username,userpass,callback ){
         var result=false;
+        console.log("checking " + username + " " + userpass);
 
-        var stmt = 'SELECT * FROM User WHERE UserName == ' + username;
-        db.get(stmt, function (err, res) {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(res);
+        var stmt = "SELECT * FROM User WHERE UserName =" + "\'"+username+"\'";
+        db.get(stmt, function(err,res){
 
-                callback(results);
+            if(res==null){
+                result=false;
             }
-
-        }, function(err,rows){
+            else if(res.UserPassword==userpass){
+                result = true;
+            }
+            else {
+                result = false;
+            }
             callback(result);
         });
     }

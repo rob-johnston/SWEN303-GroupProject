@@ -174,12 +174,13 @@ router.post('/login', function(req, res){
 
     //check database for pass assigned to username
     //if it checks out
-    console.log(req.body);
+
 
     login.login(req.body.user,req.body.pass, function(result){
 
+       // console.log("the result is == " +result);
 
-        var validLogin = result;
+        var validLogin = (result==true);
         var errorAlert;
 
         if(validLogin){
