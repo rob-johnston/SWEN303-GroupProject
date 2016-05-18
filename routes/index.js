@@ -191,10 +191,6 @@ router.get('/admin', function(req, res){
 
 router.post('/login', function(req, res){
 
-    //check database for pass assigned to username
-    //if it checks out
-
-
     login.login(req.body.user,req.body.pass, function(result){
 
        // console.log("the result is == " +result);
@@ -208,7 +204,6 @@ router.post('/login', function(req, res){
         else {
             errorAlert=true;
         }
-
         //if  login is valid then sign user in
         if(validLogin) {
             user.username = req.body.user;
@@ -220,10 +215,7 @@ router.post('/login', function(req, res){
             //failed login so print error
             res.render('login', {errorAlert: errorAlert})
         }
-
     })
-
-
 });
 
 /* Setup route.*/
@@ -249,6 +241,18 @@ router.get('/logout', function(req, res){
 
 router.get('/register', function(req,res){
     res.render('register');
+})
+
+router.post('/register', function(req,res){
+    console.log(req.body);
+    login.register(req.body,function(result){
+        if(result){
+            res.render('register', {message:'successfully registered!'});
+        } else {
+            res.render('register', {message: 'error while registering, invalid information or username already exists'});
+        }
+
+    });
 })
 
 

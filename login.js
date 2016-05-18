@@ -8,11 +8,12 @@
     var sqlite = require('sqlite3').verbose();
     var db = new sqlite.Database(file);
 
-    module.exports.login = function(username,userpass,callback ){
-        var result=false;
-        console.log("checking " + username + " " + userpass);
+    module.exports = {login:login,
+                      register: register};
 
-        var stmt = "SELECT * FROM User WHERE UserName =" + "\'"+username+"\'";
+    function login(username,userpass,callback){
+        var result=false;
+                var stmt = "SELECT * FROM User WHERE UserName =" + "\'"+username+"\'";
         db.get(stmt, function(err,res){
 
             if(res==null){
@@ -27,6 +28,27 @@
             callback(result);
         });
     }
+
+
+    function register(req, callback){
+        var result=false;
+        var initstmt = "SELECT * FROM User WHERE UserName =" + "\'"+req.username+"\'";
+        db.get(initstmt, function(err,res){
+
+            if(res==null){
+                result=true;
+                //no previous results so submit it to database
+                    var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture)' +
+                        'VALUES (?, ?, ?)';
+                    db.run(stmt, [req.username, req.password, null]);
+
+            }
+            else {
+                result = false;
+            }
+            callback(result);
+        });
+    };
 })();
 
 
