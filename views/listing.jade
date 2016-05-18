@@ -19,12 +19,17 @@ block body
     //Get passed individual listing data in "results"
     //Display this data on the page in a meaningful way
     .container
+        form(action="buy",method="put",id="form1" enctype="multipart/form-data")
         .row
             .col-md-7
+                //Maybe just scale the image instead of setting the size?
                 img(src='/images/' + results.ListingImage, alt='logo',style='width:500px;height:500px;')
             .col-md-3
                 h2 #{results.ListingTitle}
                 p Price: $#{results.ListingPrice}
+                select(class="form-control",name="ColourKey")
+                    each colour in colours
+                        option(value='#{colour.ColourKey}') #{colour.ColourName}
                 p More relevant info here...
                 a.btn.btn-default(href="#",role="button") Buy now
 

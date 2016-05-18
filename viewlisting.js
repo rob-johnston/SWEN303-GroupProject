@@ -15,11 +15,19 @@
         }
         var listingKey = params.query.ListingKey;
         //Get listing from database
-        db.getListing(listingKey,function (err, res) {
+        var results = [];
+        db.getListing(listingKey,function (err, listing) {
             if (err) {
                 console.log(err);
             } else {
-                callback(res);
+                results.push(listing);
+                db.getListingColours(listingKey,function (err, colours) {
+                    if (err) console.log(err);
+                    else {
+                        results.push(colours);
+                        callback(results);
+                    }
+                });
             }
         });
     }

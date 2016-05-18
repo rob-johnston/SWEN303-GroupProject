@@ -44,9 +44,9 @@ router.get('/listing', function(req, res, next) {
     var urlparts = url.parse(req.url, true);
     //Pass to viewlisting file to get the results
     viewlisting.getlisting(urlparts, function (resultsArray){
-        console.log(resultsArray);
+        console.log(resultsArray[1]);
         //render listing to page
-        res.render('listing', { title: "listing", results: resultsArray});
+        res.render('listing', { title: "listing", results: resultsArray[0], colours: resultsArray[1]});
     });
 });
 

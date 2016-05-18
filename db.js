@@ -15,7 +15,8 @@
         getAllTypes:getAllTypes,
         addListingColour:addListingColour,
         getUserListing: getUserListings,
-        deleteListing: deleteListing
+        deleteListing: deleteListing,
+        getListingColours: getListingColours
     };
 
     //db.each('SELECT * FROM Colour', function(err, res){
@@ -44,6 +45,17 @@
         var stmt = 'SELECT * FROM Colour';
 
         db.all(stmt, cb);
+    }
+
+    /**
+     * Returns all the colours that correspond to this listing, including the colourName
+     * @param key Listing key
+     * @param cb callback function
+     */
+    function getListingColours(key, cb){
+        var stmt = 'SELECT * FROM ListingColour LEFT JOIN Colour ON ListingColour.ColourKey=Colour.ColourKey WHERE ListingKey = ?';
+
+        db.all(stmt, [key], cb);
     }
 
     /**
