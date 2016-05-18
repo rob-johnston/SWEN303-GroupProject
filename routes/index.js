@@ -82,8 +82,10 @@ router.get('/checkedOut',function(req,res,next){
 /*seller view page*/
 router.get('/seller',function(req,res,next){
   var id = req.query.user;
-  console.log(id);
 
+  if (!id){
+    id = 'joely';
+  }
   //Find the user record
   db.db.get('SELECT * FROM User WHERE UserName = ?', id, function(err, r1){
     if (err || !r1){
@@ -103,7 +105,22 @@ router.get('/seller',function(req,res,next){
 
 /*seller listings page*/
 router.get('/sellerListing',function(req,res,next){
-  res.render('sellerListing');
+  var id = req.params.user;
+
+  if (!id){
+    id = 'joely';
+  }
+
+  db.getUserListing(id, function(err, data){
+    if (err){
+      console.log(err);
+      res.send(404);
+    } else {
+      console.log(data);
+      res.render('sellerListing', {user:user, listings: data})
+    }
+  });
+
 });
 
 /*seller sale history*/

@@ -20,33 +20,25 @@ block body
 				span.glyphicon.glyphicon-plus-sign(style="font-size:3em;float:right")
 			br
 			br
-			+panel-default("Name of Hat")
-				.col-md-2
-					img.listing(src="images/1.jpg")
-					br
-				.col-md-6
-					h4 Price
-					p $16
-					h4 Description
-					p
-						|Very good hats. Good quality and good price.
 
-				.col-md-2
+			each listing in listings
+				+panel-default(listing.ListingTitle)
+					.col-md-2
+						img.listing(src="/images/"+listing.ListingImage)
+						br
+					.col-md-8
+						h4 Price
+						p $ #{listing.ListingPrice}
+						h4 Description
+						p
+							|#{listing.ListingDesc}
 
-					+table(["Colour","Quantity"],[
-					["Black","15"],
-					["White","10"],
-					["Blue","20"]
-					],"table-striped table-bordered")
+				//- .col-md-2
 
-			+panel-default("Default Panel")
-				.col-md-2
-					img(src="images/p1.jpg")
-					br
-				.col-md-6
-					h4 Claudia Polik
-					p
-						|Very good hats. Good quality and good price.
-		
-				
-				
+				//-	+table(["Colour","Quantity"],[
+				//-	["Black","15"],
+				//-	["White","10"],
+				//-	["Blue","20"]
+				//-	],"table-striped table-bordered")
+
+

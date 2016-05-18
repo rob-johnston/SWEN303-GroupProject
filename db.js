@@ -13,7 +13,9 @@
         getAllColours: getAllColours,
         addListing:addListing,
         getAllTypes:getAllTypes,
-        addListingColour:addListingColour
+        addListingColour:addListingColour,
+        getUserListing: getUserListings,
+        deleteListing: deleteListing
     };
 
     //db.each('SELECT * FROM Colour', function(err, res){
@@ -29,7 +31,7 @@
      * @param cb callback function
      */
     function getActiveListings(cb) {
-        var stmt = 'SELECT * FROM Listing WHERE isDeleted == 0';
+        var stmt = 'SELECT * FROM VListing WHERE isDeleted == 0';
 
         db.all(stmt, cb);
     }
@@ -56,13 +58,13 @@
 
     /**
      * Returns all the active listings sold by a user
-     * @param key User Key
+     * @param user User name
      * @param cb callback function
      */
-    function getUserListings(key, cb){
-        var stmt = 'SELECT * FROM VListing WHERE SellerKey = ?';
+    function getUserListings(user, cb){
+        var stmt = 'SELECT * FROM VListing WHERE Seller = ?';
 
-        db.all(stmt, [key], cb);
+        db.all(stmt, [user], cb);
     }
 
     /**
@@ -71,7 +73,7 @@
      * @param cb callback function
      */
     function getListing(key, cb){
-        var stmt = 'SELECT * FROM Listing WHERE ListingKey = ?';
+        var stmt = 'SELECT * FROM VListing WHERE ListingKey = ?';
 
         db.get(stmt, [key], cb);
     }
