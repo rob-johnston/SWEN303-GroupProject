@@ -214,12 +214,16 @@ router.get('/login', function(req, res){
 
 router.get('/logout', function(req, res){
     if(user.loggedIn==false){
-        res.send("nobody logged in!")
+        backURL=req.header('Referer') || '/login';
+        // do your thang
+        res.redirect(backURL);
     }
     else {
         user.loggedIn=false;
         user.username="";
-        res.render('login', {loggedIn: user.loggedIn, username : user.username});
+        backURL=req.header('Referer') || '/login';
+        // do your thang
+        res.redirect(backURL);
     }
 
 });
