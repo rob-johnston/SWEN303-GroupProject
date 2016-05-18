@@ -228,5 +228,9 @@ router.get('/logout', function(req, res){
 
 });
 
+router.get('/register', function(req,res){
+    res.render('register');
+})
+
 
 module.exports = router;
