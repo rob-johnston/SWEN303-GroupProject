@@ -4,6 +4,7 @@ var router = express.Router();
 var url = require('url');
 var db = require("../db.js"); //Is this the best way to reference the database?
 var searchDatabase = require("../search.js");
+var login = require("../login.js");
 var viewlisting = require("../viewlisting.js");
 
 var item = {
@@ -173,22 +174,53 @@ router.post('/login', function(req, res){
 
     //check database for pass assigned to username
     //if it checks out
-    user.username=req.body.user;
-    user.loggedIn=true;
-    res.render('login');
+    console.log(req.body);
 
-    //otherwise render error message
+    login.login(req.body.user,req.body.pass, function(result){
+
+
+        var validLogin = result;
+        var errorAlert;
+
+        if(validLogin){
+            errorAlert=false;
+        }
+        else {
+            errorAlert=true;
+        }
+
+        //if  login is valid then sign user in
+        if(validLogin) {
+            user.username = req.body.user;
+            user.loggedIn = true;
+            //render success message
+            res.render('login', {errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
+        }
+        else {
+            //failed login so print error
+            res.render('login', {errorAlert: errorAlert})
+        }
+
+    })
+
+
 });
 
 /* Setup route.*/
 router.get('/login', function(req, res){
-      res.render('login');
+      res.render('login', {loggedIn: user.loggedIn, username : user.username});
 });
 
 router.get('/logout', function(req, res){
-    user.loggedIn=false;
-    user.username="";
-    res.send("youve logged out");
+    if(user.loggedIn==false){
+        res.send("nobody logged in!")
+    }
+    else {
+        user.loggedIn=false;
+        user.username="";
+        res.render('login', {loggedIn: user.loggedIn, username : user.username});
+    }
+
 });
 
 
