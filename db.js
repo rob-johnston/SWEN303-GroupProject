@@ -11,7 +11,9 @@
         getActiveListings: getActiveListings,
         getListing: getListing,
         getAllColours: getAllColours,
-        addListing:addListing
+        addListing:addListing,
+        getAllTypes:getAllTypes,
+        addListingColour:addListingColour
     };
 
     //db.each('SELECT * FROM Colour', function(err, res){
@@ -29,7 +31,7 @@
     function getActiveListings(cb) {
         var stmt = 'SELECT * FROM Listing WHERE isDeleted == 0';
 
-        db.get(stmt, cb);
+        db.all(stmt, cb);
     }
 
     /**
@@ -39,7 +41,17 @@
     function getAllColours(cb) {
         var stmt = 'SELECT * FROM Colour';
 
-        db.each(stmt, cb);
+        db.all(stmt, cb);
+    }
+
+    /**
+     * Returns all the types from the database
+     * @param cb callback function
+     */
+    function getAllTypes(cb) {
+        var stmt = 'SELECT * FROM Type';
+
+        db.all(stmt, cb);
     }
 
     /**
@@ -50,7 +62,7 @@
     function getUserListings(key, cb){
         var stmt = 'SELECT * FROM VListing WHERE SellerKey = ?';
 
-        db.get(stmt, [key], cb);
+        db.all(stmt, [key], cb);
     }
 
     /**
@@ -79,6 +91,19 @@
             'VALUES (?, ?, ?, ?, ?, ?)';
 
         db.run(stmt, [sell_key, type_key, title, desc, price, image], cb)
+    }
+
+    /**
+     * Adds a new listing colour to the database
+     * @param list_key listing key
+     * @param col_key colour key
+     * @param cb callback function (for errors)
+     */
+    function addListingColour(list_key, col_key, cb){
+        var stmt = 'INSERT INTO ListingColour (ListingKey, ColourKey)' +
+            'VALUES (?, ?)';
+
+        db.run(stmt, [list_key, col_key], cb)
     }
 
     /**

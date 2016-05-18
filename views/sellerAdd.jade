@@ -15,34 +15,23 @@ block body
 	.container
 		.row
 			.col-md-7
-				form(action="sellerAdd",method="get",id="form1")
-					p Listing title
+				form(action="sellerAdd",method="put",id="form1" enctype="multipart/form-data")
+					label Listing title
 					input(class="form-control",type="text", name="ListingTitle", placeholder="title",required)
-					//How should colours be submitted? Number of each colour, or only allow up to 1 for each colour?
-					p Colours in stock
-					//Not working because array is being passed in asynchronously (not in order) so it is empty...
-					p #{colours.ColourKey}
-					each value in colours
-						//var colourKey = #{value.ColourKey}
-						input(type="checkbox",name="Red")
-					//input(type="checkbox",name="Red")
-					p Description
+					label Colours available
+					each colour in colours
+						//How should colours be submitted? Number of each colour, or only allow up to 1 for each colour?
+						//Should really require that at least one colour is chosen (ie one is above 0).
+						p #{colour.ColourName}
+						input(class="form-control",type="number",step="1", name='#{colour.ColourKey}', placeholder="0", min=0)
+					label Type of hat
+					select(class="form-control",name="TypeKey")
+						each type in types
+							option(value='#{type.TypeKey}') #{type.TypeName}
+					label Description
 					textarea(class="form-control",rows="10", name="ListingDesc", placeholder="description")
-					p Price
-					input(class="form-control",type="number",step="0.01", name="ListingPrice", placeholder="0")
-					p Listing image upload
-					input(type="file",name="ListingImage")
-					//+checkbox-inline(name="Red")
-					input(type="submit", value="Submit")
-				//+input("text","txtName","Title","Listing title")
-				//+input("text","description","Description","Description")
-				//+checkbox-inline("Red")
-				//+checkbox-inline("Blue")
-				//+checkbox-inline("Green")
-				//p
-				//+radio-inline("Top Hat")
-				//+radio-inline("Cap")
-				//+radio-inline("Sombrero")
-				//p
-				//+submit("Submit")
-			//button(type="submit",form="form1",value="Submit") Submit
+					label Price
+					input(class="form-control",type="number",step="0.01", name="ListingPrice", placeholder="0", min=0.5, required)
+					label Listing image upload
+					input(type="file" value="Choose image file to Upload" name="fileUpload" accept="image/*")
+					input(type="submit" form="form1" value="Submit listing")

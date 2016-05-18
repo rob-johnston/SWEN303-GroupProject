@@ -21,7 +21,7 @@ block body
     .container
         .row
             .col-md-7
-                img(src=results.ListingImage, alt='logo',style='width:500px;height:500px;')
+                img(src='/images/' + results.ListingImage, alt='logo',style='width:500px;height:500px;')
             .col-md-3
                 h2 #{results.ListingTitle}
                 p Price: $#{results.ListingPrice}
