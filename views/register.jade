@@ -15,16 +15,16 @@ block body
             include ./partials/header.jade
         include ./partials/navbar.jade
 
-        h1 #{message}
+        h5.center(style="color:red") #{message}
         form.well(id='form-login', method='post')
 
             h2 Welcome to Hats!
-            h6 Fill in the form to register a new account
+            h5 Fill in the form to register a new account
             .form-group
-                label User name
+                label Username
                 input.form-control(type='text', id='user-rg', name='username')
             .form-group
-                label Pass word
+                label Password
                 input.form-control(type='password', id='pass-rg', name='password')
             .form-group
                 label Address
@@ -34,7 +34,7 @@ block body
                 label PostCode
                 input.form-control(type='number', id='postcode-tf', name='postcode')
 
-            h2 Register Your credit card for extra fast purchasing of your favourite hats!
+            h3 Register your credit card for extra fast purchasing of your favourite hats!
             .form-group
                 label Credit Card number
                 input.form-control(type='number', id='cc-tf', name='cc')
@@ -44,5 +44,4 @@ block body
                 input.form-control(type='number', id='cvv-tf', name='cvv')
 
             .controls
-                button(type='submit').btn.btn-primary.button-sign-in
-                    +submit("Register")
+                input.btn.btn-primary(type='submit' value='Register')
