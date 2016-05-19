@@ -32,14 +32,14 @@ block body
 			//- 		p(style='display:inline') ) 
 			//- 	span.glyphicon.glyphicon-shopping-cart.black(style="font-size:2.5em;float:right")
 			//- br
-			include ./partials/header.jade
+			include ./partials/headerLoggedIn.jade
 			
 		include ./partials/navbar.jade
 	.container
 		.jumbotron
 				h1 Welcome to Hats!
 				p.lead
-					|Don't have an account? No worries! Sign up for free today and get a	FREE $5 voucher, worth upwards of $5!
+					|Don't have an account? No worries! Sign up for free today and get a FREE $5 voucher!
 				p
 					a.btn.btn-lg.btn-success(href='/register', role='button') Sign up!
 		.row

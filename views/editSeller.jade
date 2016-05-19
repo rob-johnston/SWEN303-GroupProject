@@ -1,0 +1,42 @@
+extends ../node_modules/jade-bootstrap/_bootstrap
+append(rel="stylesheet",href="stylesheets/style.css")
+head
+	title=title
+	//meta(name="viewport" content="width=device-width, initial-scale=1")
+append styles
+	link(rel="stylesheet", href="/stylesheets/jumbotron-narrow.css")
+	link(rel="stylesheet" href="/stylesheets/style.css")
+block body	
+	.container 
+		.header 
+			include ./partials/headerSeller.jade
+		include ./partials/navbarSeller.jade
+		
+		
+		//- .col-md-3
+		//- 		img(src='/images/' + seller.UserPicture)
+		//- .col-md-4
+		//- 		h2 #{seller.UserDisplayName}
+		//- 		a(href='shop.html')
+		//- 			span.glyphicon.glyphicon-edit(style="font-size:2em;float:right")
+		//- 		h4 Contact
+		//- 		p #{seller.UserContact}
+		//- 		h4 Description
+		//- 		p #{seller.UserDesc}
+		//- 		//- button.btn.btn-default.btn-lg(type='button')
+		//- 		//- 	span.glyphicon.glyphicon-plus-sign
+	.container
+		.center
+			#formCenter
+				form.centerAdd(action="editSeller",method="put",id="form1" enctype="multipart/form-data")
+					h4 Name
+					input(class="form-control",type="text", name="name", placeholder="New name",required)
+
+					h4 Contact
+					input(class="form-control",type="text", name="contact", placeholder="New contact",required)
+					
+					h4 Description
+					input(class="form-control",type="text", name="description", placeholder="New description",required)
+
+					br
+					input.btn.btn-success(type="submit" form="form1" value="Done")

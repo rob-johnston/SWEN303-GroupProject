@@ -6,55 +6,42 @@ extends ../node_modules/jade-bootstrap/_bootstrap
 head
     title=title
 
-block body
-    .row
-        .col-xs-1
-            h1 Hats
-        .col-xs-6
-            img(src='images/logo.png', alt='logo',style='width:70px;height:70px;')
-        .col-xs-4
-            +navbar("","dropdown_menu")
-                +nav_item("index.html","active") Home
-                +nav_item("about.html") About
-                +nav_item("contact.html") Contact
-    //- +nav-pills-pull-right([{text:"Home",href:"#"},{text:"Profile",href:"#"},{text:"Message",href:"#"}],0)
-    +navbar("","dropdown_menu")
-        //- +nav_item("index.html","active") Home
-        //- +nav_item("about.html") About
-        //- +nav_item("contact.html") Contact
-        +nav_item_dropdown("#")(label="Women")
-            +nav_item("#") Top Hats
-            +nav_item("#") Beanies
-            +nav_item("#") Caps
-            //- +nav_divider
-            //- +nav_header Nav header
-            //- +nav_item("#") Separated link
-            //- +nav_item("#") One more separated link
-        +nav_item_dropdown("#")(label="Men")
-            +nav_item("#") Top Hats
-            +nav_item("#") Beanies
-            +nav_item("#") Caps
+append styles
+    link(rel="stylesheet", href="/stylesheets/jumbotron-narrow.css")
+    link(rel="stylesheet" href="/stylesheets/style.css")
+block body  
+    .container 
+        .header 
+            include ./partials/header.jade
+            
+        include ./partials/navbar.jade
+    .container
 
-    .row
-        .col-md-2
+        .row
+            .col-md-3
 
-        form(id = 'searchbox', name ='search', action='/search', method='GET')
-            .col-md-2
-                p Minimum Price
-                input(type="range" min="0" max="500" value="0" step="50" onchange="showMinValue(this.value)" name = "minprice")
-                span(id="minrange")
-                p Maximum Price
-                input(type="range" min="0" max="500" value="0" step="50" onchange="showMaxValue(this.value)" name = "maxprice")
-                span(id="maxrange")
+                form(id = 'searchbox', name ='search', action='/search', method='GET')
+                    p
+                    +input("text","txtName","Eg: Sexy Hats","Filter", value = "searchbar")
+                    h5
+                        b Minimum Price
+                    input(type="range" min="0" max="500" value="0" step="50" onchange="showMinValue(this.value)" name = "minprice")
+                    span(id="minrange")
 
-                script.
-                    function showMinValue(newValue){ document.getElementById("minrange").innerHTML=newValue;}
-                script.
-                    function showMaxValue(newValue) {
-                        document.getElementById("maxrange").innerHTML = newValue;
-                    }
-            .col-md-6
-                    label
+                    h5 
+                        b Maximum Price
+                    input(type="range" min="0" max="500" value="0" step="50" onchange="showMaxValue(this.value)" name = "maxprice")
+                    span(id="maxrange")
+
+                    script.
+                        function showMinValue(newValue){ document.getElementById("minrange").innerHTML=newValue;}
+                    script.
+                        function showMaxValue(newValue) {
+                            document.getElementById("maxrange").innerHTML = newValue;
+                        }
+                    br
+                    h5
+                        b Colour
                     input(type="checkbox", name="red")
                     |   red
                     p
@@ -63,22 +50,33 @@ block body
                     p
                     input(type="checkbox", name="blue")
                     |   blue
-                    p
-                    +input("text","txtName","Eg: Sexy Hats","Product Search", value = "searchbar")
-                    +submit("Search")
+                    br
+                    br
+                    +submit("Filter")
+
+
+            .col-md-9
+                .results
+                    each listing in results
+                            .instanceBox
+                                //link to the listing page
+                                a(href="/listing?ListingKey=" + listing.ListingKey)
+                                    +panel-default(listing.ListingTitle)
+                                        .col-md-3
+                                            img.listing(src="/images/"+listing.ListingImage)
+                                            br
+                                        .col-md-9
+                                            h4 Price
+                                            p $ #{listing.ListingPrice}
+                                            h4 Description
+                                            p
+                                                |#{listing.ListingDesc}
 
 
 
-    .results
-        .col-md-2
-
-        .col-md-2
-            //
 
 
-        .col-md-8
-            each value in results
-                .instanceBox
-                    h1 #{value.ListingTitle}
-                    img(src='/images/' + value.ListingImage, alt='logo',style='width:50px;height:50px;')
-                    p #{value.ListingPrice}
+
+                                //- h3 #{value.ListingTitle}
+                                //- img(src='/images/' + value.ListingImage, alt='logo',style='width:50px;height:50px;')
+                                //- p #{value.ListingPrice}

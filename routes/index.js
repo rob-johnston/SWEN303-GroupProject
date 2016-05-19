@@ -139,6 +139,11 @@ router.get('/sellerListing',function(req,res,next){
 
 });
 
+/*seller edit profile*/
+router.get('/editProfile',function(req,res,next){
+  res.render('editSeller');
+});
+
 /*seller sale history*/
 router.get('/saleHistory',function(req,res,next){
   res.render('saleHistory');
