@@ -90,7 +90,7 @@ router.get('/addToCart',function(req,res,next){
     //console.log(ListingTitle);
     //Item includes the ListingKey and ColourKey so we can remove from the database on checkout.
     var item = {name: ListingTitle, imageString: ListingImage, price: ListingPrice, ListingKey: ListingKey, ColourKey: ColourKey};
-    cart.push(item);
+    user.cart.push(item);
     res.redirect('/cart');
 });
 
