@@ -36,15 +36,31 @@
         db.get(initstmt, function(err,res){
 
             if(res==null){
+                //if null then user doesnt already exist!
                 result=true;
-                //no previous results so submit it to database
-                    var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture)' +
-                        'VALUES (?, ?, ?)';
-                    db.run(stmt, [req.username, req.password, null]);
 
+                  if(req.username==undefined || req.password==undefined || req.address ==undefined || req.city==undefined){
+                      result=false;
+                  }
+
+                //no previous results so submit it to database
+                    //if credit card fields are left blank
+                   else if(req.cc==undefined || req.exp == undefined)   {
+
+                        var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity)' +
+                        'VALUES (?, ?, ?, ?, ?)';
+                         db.run(stmt, [req.username, req.password, null, req.address, req.city]);
+                    }
+                    else {
+                    //otherwise assume credit card details are legit
+                        var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity, UserCreditCard, UserExpiry)' +
+                        'VALUES (?, ?, ?, ?, ?, ?, ?)';
+                         db.run(stmt, [req.username, req.password, null, req.address, req.city, req.cc, req.exp]);
+                }
             }
             else {
                 result = false;
+
             }
             callback(result);
         });
