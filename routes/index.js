@@ -7,6 +7,13 @@ var searchDatabase = require("../search.js");
 var login = require("../login.js");
 var viewlisting = require("../viewlisting.js");
 
+//For uploading
+var multer = require('multer');
+var upload = multer({dest: '../public/images'});
+
+//for renaming files
+var fs = require('fs');
+
 var item = {
     name: "top hat",
     imageString: "/images/1.jpg",
@@ -211,6 +218,28 @@ router.get('/sellerAdd', function(req, res, next) {
             });
         }
     });
+});
+
+router.post("/add", upload.single('fileUpload'),function(req,res,next) {
+    var form = FormData.get('form1'); //document.getElementById('ListingTitle');
+    console.log(form);
+    console.log(req.file);
+    //getting current directory
+    var directory = process.env.PWD;
+    var origName = req.file.originalname; //At the moment no renaming of the file is happening
+    var hasError = false;
+
+    //renaming the file to its original name
+    fs.rename(req.file.path, '../public/images/' + origName,
+        function(err){
+            if(err){
+                hasError = true;
+            console.log("RENAMING ERROR");
+            console.log(err);
+                res.render('add',{title:'Failed to find the file.', error:err});
+            }
+        }
+    );
 });
 
 /* GET search page. */
