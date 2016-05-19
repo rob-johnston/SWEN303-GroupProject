@@ -225,11 +225,13 @@ router.get('/search', function(req, res, next) {
     //get the search params from url
     var urlparts = url.parse(req.url, true);
     //pass to searchdatabase file to get results
-    searchDatabase.basicSearch(function (resultsArray){
-        //console.log(resultsArray);
-        //render results to page
-        res.render('searchpage', { results: resultsArray});
-    });
+    searchDatabase.basicSearch(urlparts, function (resultsArray){
+        var dummy=[];
+        //check for failed data and change to safe array to pass
+        if(resultsArray==undefined || resultsArray[0]==undefined){
+            resultsArray=dummy;
+        }
+        res.render('searchpage', { results: resultsArray, resultslength: resultsArray.length});});
 });
 
 
@@ -247,9 +249,6 @@ router.get('/admin', function(req, res){
 router.post('/login', function(req, res){
 
     login.login(req.body.user,req.body.pass, function(result){
-
-       // console.log("the result is == " +result);
-
         var validLogin = (result==true);
         var errorAlert;
 
@@ -265,6 +264,11 @@ router.post('/login', function(req, res){
             user.loggedIn = true;
             //render success message
             res.render('login', {errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
+
+            /*TODO -- here we are just rendering a shitty success message, would be cool if we could redirect to the seller home page or whatever*/
+
+           // backURL=req.header('Referer') || '/sellerView';
+           // res.redirect('sellerView');
         }
         else {
             //failed login so print error
@@ -281,7 +285,6 @@ router.get('/login', function(req, res){
 router.get('/logout', function(req, res){
     if(user.loggedIn==false){
         backURL=req.header('Referer') || '/login';
-        // do your thang
         res.redirect(backURL);
     }
     else {
@@ -289,7 +292,7 @@ router.get('/logout', function(req, res){
         user.username="";
         backURL=req.header('Referer') || '/login';
         // do your thang
-        res.redirect(backURL);
+        res.render('login', {message: 'Thanks for shopping with us!', loggedIn: user.loggedIn});
     }
 
 });
@@ -299,7 +302,6 @@ router.get('/register', function(req,res){
 })
 
 router.post('/register', function(req,res){
-    console.log(req.body);
     login.register(req.body,function(result){
         if(result){
             res.render('register', {message:'successfully registered!'});

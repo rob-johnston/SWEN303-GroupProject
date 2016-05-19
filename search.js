@@ -6,29 +6,48 @@ var results = [];
 
 (function(){
 
-    var db = require('./db');
+    var file = '../data.db';
+    var sqlite = require('sqlite3').verbose();
 
+    var db = new sqlite.Database(file);
     //need a more complex search
 
-    module.exports.basicSearch = function(callback){
-            results= [];
+    module.exports.basicSearch = function(searchparameters, callback){
 
-        // not actually using the search parameters,
-        //but it is working like it should be
-            db.getActiveListings(function (err, res) {
+        console.log(searchparameters.query);
+
+        var searchWords = searchparameters.query.searchbar.split(' ');
+
+        //if a basic search from main menu, do something slightly different!!!!!!!
+        if(searchparameters.query.maxprice==undefined){
+            var stmt = 'SELECT * FROM Listing WHERE isDeleted == 0 ';
+            for (var i=0; i< searchWords.length; i++){
+                stmt += "AND (ListingTitle LIKE \'%" + searchWords[i] + "%\' OR ListingDesc LIKE \'%" + searchWords[i] +"%\') ";
+            }
+        } else {
+            //super dirty sql query
+            var stmt = 'SELECT * FROM Listing WHERE isDeleted == 0 ';
+            for (var i=0; i< searchWords.length; i++){
+                stmt += "AND (ListingTitle LIKE \'%" + searchWords[i] + "%\' OR ListingDesc LIKE \'%" + searchWords[i] +"%\') ";
+            }
+            //make it even dirtier
+            stmt += "AND ListingPrice < " + searchparameters.query.maxprice +" AND ListingPrice > " + searchparameters.query.minprice;
+            console.log(stmt);
+        }
+
+            db.all(stmt, function (err, res) {
                 if (err) {
                     console.log(err);
-                } else {
-                  // console.log(res);
-                    results = res;
-                    //call back to render the results on page
+                    console.log("error");
                     callback(results);
+                } else {
+                  console.log("no error");
+                  console.log(res);
+
+                    //call back to render the results on page
+                    callback(res);
                 }
 
-            }, function(err,rows){
-                //originally this was the final step, but now method has changed so we dont reach here
-                //have to wait to confirm how db interaction works to finalise how this shit should do its job
-                callback(results);
             });
         }
     })();
