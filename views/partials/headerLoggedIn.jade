@@ -1,5 +1,10 @@
-p(style='float:right') Welcome 
-p=user.username
+#welcome(style='float:right')
+  p Welcome 
+  b=user.username + "!"
+#language(style="float:right; padding-right:20px" )
+  +dropdown("Language",[
+    {text:"中文",url:"/c"},
+    {text:"English",url:"/"}])
 img.center(src='images/title.jpg', alt='logo',style='max-width:100%; height:auto;width:auto')
 
 .center
@@ -10,5 +15,10 @@ img.center(src='images/title.jpg', alt='logo',style='max-width:100%; height:auto
       .col-md-1
         input(class="btn btn-default" type="submit",value="search")
       //br
-
+//shopping cart
+#cart(style='float:right')
+  a(href='/cart')
+    span.badge=user.cart.length
+    span.glyphicon.glyphicon-shopping-cart.black(style="font-size:2.5em;float:right")   
+br
   
