@@ -15,6 +15,10 @@ block body
 				#right(style='float:right;')
 					p= "欢迎 "
 					b=user.username
+				#language(style="float:right; padding-right:20px" )
+					+dropdown("Language",[
+			  			{text:"中文",url:"/c"},
+			  			{text:"English",url:"/"}])
 			img.center(src='images/titleC.jpg', alt='logo',style='max-width:100%; height:auto;width:auto')
 			
 			.center
@@ -24,13 +28,14 @@ block body
 							input(class="form-control" type="text",name="title",placeholder="搜索...",value=titleInput)
 						.col-md-1
 							input(class="btn btn-default" type="submit",value="搜索")
-			//shopping cart
-			a(href='/cart')
-				#para(style='float:right; font-size:1.5em;color:red') 
-					p(style='display:inline') (
-					p(style='display:inline')=user.cart.length
-					p(style='display:inline') ) 
-				span.glyphicon.glyphicon-shopping-cart.black(style="font-size:2.5em;float:right")
+			if(user.loggedIn)
+				//shopping cart
+				#cart(style='float:right')
+					a(href='/cart')
+						span.badge=user.cart.length
+						span.glyphicon.glyphicon-shopping-cart.black(style="font-size:2.5em;float:right")
+				br
+				br
 			
 			
 			.navbar.navbar-default
