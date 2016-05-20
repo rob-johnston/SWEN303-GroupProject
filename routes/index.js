@@ -159,9 +159,49 @@ router.get('/saleHistory',function(req,res,next){
 /* GET sellerAdd page. */
 router.get('/sellerAdd', function(req, res, next) {
     //Get the possible colours from the database
-    db.getActiveListings(function (err, res2) {
-        console.log(res2);
+    var colours = [];
+    var types = [];
+    db.getAllColours(function (err, dbColours) {
+        if (err) {
+            console.log(err);
+        } else {
+            colours = dbColours;
+            //Probably not ideal to call from inside the other function...
+            db.getAllTypes(function (err, dbTypes) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    types = dbTypes;
+                    res.render('sellerAdd', {title: 'Add a listing', colours: colours, types: types });
+                }
+            });
+        }
     });
+});
+
+router.post("/add", upload.single('fileUpload'),function(req,res,next) {
+    var origName = "1.jpg"; //Default image if no image was provided.
+    if (req.file != null) {
+        console.log(req.file);
+        //getting current directory
+        var directory = process.env.PWD;
+        origName = req.file.originalname; //At the moment no renaming of the file is happening
+        var hasError = false;
+
+        //renaming the file to its original name
+        fs.rename(req.file.path, '../public/images/' + origName,
+            function(err){
+                if(err){
+                    hasError = true;
+                    console.log("RENAMING ERROR");
+                    console.log(err);
+                    res.render('add',{title:'Failed to find the file.', error:err});
+                }
+            }
+        );
+        console.log(req.body.ListingTitle);
+    }
+
     var colours = [];
     var types = [];
     db.getAllColours(function (err, dbColours) {
@@ -176,70 +216,55 @@ router.get('/sellerAdd', function(req, res, next) {
                 } else {
                     types = dbTypes;
                     //console.log(types);
-                    if (req.query.ListingTitle == null) {
+                    if (req.body.ListingTitle == null) {
                         //If no data has been submitted, display the add a listing page (sellerAdd)
 
                         res.render('sellerAdd', {title: 'Add a listing', colours: colours, types: types });
                     } else {
                         //If data has been submitted, create a new listing record in the database
                         var SellerKey = 1; //Default for now. This should be passed in depending on the auth type we use.
-                        var TypeKey = req.query.TypeKey; //Default for now. Will be passed from res.query.TypeKey
-                        var ListingTitle = req.query.ListingTitle;
-                        var ListingDesc = req.query.ListingDesc;
-                        var ListingPrice = req.query.ListingPrice;
-                        var ListingImage = "./2.jpg"; //Default for now. This part will need an upload feature.
-                        //Before adding data to the database, first validate & check the data is in the right format (int, string, etc.)
-
+                        var TypeKey = req.body.TypeKey;
+                        var ListingTitle = req.body.ListingTitle;
+                        var ListingDesc = req.body.ListingDesc;
+                        var ListingPrice = req.body.ListingPrice;
+                        var ListingImage = "./" + origName;
+                        //TODO Before adding data to the database, first validate & check the data is in the right format (int, string, etc.)
 
                         //Now add the data to the listing table
-
-                        db.addListing(SellerKey,TypeKey,ListingTitle,ListingDesc,ListingPrice,ListingImage,function(err) {
+                        db.addListing(SellerKey,TypeKey,ListingTitle,ListingDesc,ListingPrice,ListingImage,function(rowNum,err) {
                             if (err) {
                                 console.log(err);
                             } else {
                                 //Will then need to add records to ListingColour and ListingSize tables.
-                                /*
-                                for (var i=0; i<colours.length; i++) {
-                                    var colKey = colours[i].ColourKey;
-                                    if (req.query.colKey != null) {
-                                        db.addListingColour(ListingKey,colKey,function(err) {
-                                            if (err) console.log(err);
-                                        });
+                                //console.log(this.lastID);
+                                db.db.get("SELECT ListingKey FROM Listing WHERE RowID=?",[this.lastID], function(ListingKey,err) {
+                                    if (err) {
+                                        //ListingKey is stored in err.
+                                        for (var i=0; i<colours.length; i++) {
+                                            var colKey = colours[i].ColourKey;
+                                            console.log(colKey);
+                                            console.log("Works: " + req.body[colKey]);
+                                            if (req.body[colKey] != null && req.body[colKey] != 0) {
+                                                db.addListingColour(err.ListingKey,colKey,function(err) {
+                                                    if (err) console.log(err);
+                                                });
+                                            }
+                                        }
                                     }
-                                }
-                                */
+                                    else {
+
+                                    }
+                                });
                             }
                         });
 
-                        //Then, display the listing on the listing page?? Or go back to the sellerAdd page?
+                        //TODO Then, display the listing on the listing page?? Or go back to the sellerAdd page?
                         res.render('sellerAdd', {title: 'Add a listing', colours: colours, types: types });
                     }
                 }
             });
         }
     });
-});
-
-router.post("/add", upload.single('fileUpload'),function(req,res,next) {
-    var form = FormData.get('form1'); //document.getElementById('ListingTitle');
-    console.log(form);
-    console.log(req.file);
-    //getting current directory
-    var directory = process.env.PWD;
-    var origName = req.file.originalname; //At the moment no renaming of the file is happening
-    var hasError = false;
-
-    //renaming the file to its original name
-    fs.rename(req.file.path, '../public/images/' + origName,
-        function(err){
-            if(err){
-                hasError = true;
-            console.log("RENAMING ERROR");
-            console.log(err);
-                res.render('add',{title:'Failed to find the file.', error:err});
-            }
-        }
-    );
 });
 
 /* GET search page. */
