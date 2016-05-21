@@ -53,7 +53,7 @@ router.get('/listing', function(req, res, next) {
     viewlisting.getlisting(urlparts, function (resultsArray){
         console.log(resultsArray[1]);
         //render listing to page
-        res.render('listing', { title: "listing", results: resultsArray[0], colours: resultsArray[1]});
+        res.render('listing', { title: "listing",user:user, results: resultsArray[0], colours: resultsArray[1]});
     });
 });
 
@@ -172,7 +172,7 @@ router.get('/sellerAdd', function(req, res, next) {
                     console.log(err);
                 } else {
                     types = dbTypes;
-                    res.render('sellerAdd', {title: 'Add a listing', colours: colours, types: types });
+                    res.render('sellerAdd', {title: 'Add a listing', user:user, colours: colours, types: types });
                 }
             });
         }
@@ -219,7 +219,7 @@ router.post("/add", upload.single('fileUpload'),function(req,res,next) {
                     if (req.body.ListingTitle == null) {
                         //If no data has been submitted, display the add a listing page (sellerAdd)
 
-                        res.render('sellerAdd', {title: 'Add a listing', colours: colours, types: types });
+                        res.render('sellerAdd', {title: 'Add a listing', user:user, colours: colours, types: types });
                     } else {
                         //If data has been submitted, create a new listing record in the database
                         var SellerKey = 1; //Default for now. This should be passed in depending on the auth type we use.
@@ -259,7 +259,7 @@ router.post("/add", upload.single('fileUpload'),function(req,res,next) {
                         });
 
                         //TODO Then, display the listing on the listing page?? Or go back to the sellerAdd page?
-                        res.render('sellerAdd', {title: 'Add a listing', colours: colours, types: types });
+                        res.render('sellerAdd', {title: 'Add a listing', user:user, colours: colours, types: types });
                     }
                 }
             });

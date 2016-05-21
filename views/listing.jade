@@ -13,7 +13,10 @@ block body
     //Load the static navbar -------------------------------------------------------
     .container
         .header
-            include ./partials/header.jade
+            if(user.loggedIn)
+                include ./partials/headerLoggedIn.jade
+            else
+                include ./partials/header.jade
         include ./partials/navbar.jade
         //End loading static navbar --------------------------------------------
     //Get passed individual listing data in "results"
