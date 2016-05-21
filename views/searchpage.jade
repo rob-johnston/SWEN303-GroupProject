@@ -22,19 +22,20 @@ block body
 
                 form(id = 'searchbox', name ='search', action='/search', method='GET')
                     p
-                    +input("text","txtName","Eg: Sexy Hats","Filter", value = "searchbar")
+                    +input("text","txtName","Eg: top hat","Filter", value = "searchbar")
                     h5
                         b Minimum Price
-                    input(type="range" min="0" max="500" value="0" step="50" onchange="showMinValue(this.value)" name = "minprice")
+                    input(type="range" min="0" max="500" value="0" step="50" onload="showMinValue(0)" onchange="showMinValue(this.value)" name = "minprice")
                     span(id="minrange")
 
                     h5 
                         b Maximum Price
-                    input(type="range" min="0" max="500" value="0" step="50" onchange="showMaxValue(this.value)" name = "maxprice")
+                    input(type="range" min="0" max="500" value="500" step="50" onchange="showMaxValue(this.value)" onload="showMaxValue(this.value)" name = "maxprice")
                     span(id="maxrange")
 
                     script.
-                        function showMinValue(newValue){ document.getElementById("minrange").innerHTML=newValue;}
+                        function showMinValue(newValue){
+                            document.getElementById("minrange").innerHTML=newValue;}
                     script.
                         function showMaxValue(newValue) {
                             document.getElementById("maxrange").innerHTML = newValue;
@@ -57,26 +58,27 @@ block body
 
             .col-md-9
                 .results
-                    each listing in results
-                            .instanceBox
-                                //link to the listing page
-                                a(href="/listing?ListingKey=" + listing.ListingKey)
-                                    +panel-default(listing.ListingTitle)
-                                        .col-md-3
-                                            img.listing(src="/images/"+listing.ListingImage)
-                                            br
-                                        .col-md-9
-                                            h4 Price
-                                            p $ #{listing.ListingPrice}
-                                            h4 Description
-                                            p
-                                                |#{listing.ListingDesc}
+                    if resultslength > 0
+                        each listing in results
+                                .instanceBox
+                                    //link to the listing page
+                                    a(href="/listing?ListingKey=" + listing.ListingKey)
+                                        +panel-default(listing.ListingTitle)
+                                            .col-md-3
+                                                img.listing(src="/images/"+listing.ListingImage)
+                                                br
+                                            .col-md-9
+                                                h4 Price
+                                                p $ #{listing.ListingPrice}
+                                                h4 Description
+                                                p
+                                                    |#{listing.ListingDesc}
 
 
 
 
 
 
-                                //- h3 #{value.ListingTitle}
-                                //- img(src='/images/' + value.ListingImage, alt='logo',style='width:50px;height:50px;')
-                                //- p #{value.ListingPrice}
+                                    //- h3 #{value.ListingTitle}
+                                    //- img(src='/images/' + value.ListingImage, alt='logo',style='width:50px;height:50px;')
+                                    //- p #{value.ListingPrice}

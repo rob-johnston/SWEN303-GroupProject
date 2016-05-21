@@ -7,6 +7,13 @@ var searchDatabase = require("../search.js");
 var login = require("../login.js");
 var viewlisting = require("../viewlisting.js");
 
+//For uploading
+var multer = require('multer');
+var upload = multer({dest: '../public/images'});
+
+//for renaming files
+var fs = require('fs');
+
 var item = {
     name: "top hat",
     imageString: "/images/1.jpg",
@@ -44,9 +51,10 @@ router.get('/listing', function(req, res, next) {
     var urlparts = url.parse(req.url, true);
     //Pass to viewlisting file to get the results
     viewlisting.getlisting(urlparts, function (resultsArray){
-        console.log(resultsArray[1]);
+        //ResultsArray[0] is the entire listing information.
+        //ResultsArray[1] contains the colour information for this listing.
         //render listing to page
-        res.render('listing', { title: "listing", results: resultsArray[0], colours: resultsArray[1]});
+        res.render('listing', { title: "listing",user:user, results: resultsArray[0], colours: resultsArray[1]});
     });
 });
 
@@ -126,6 +134,8 @@ router.get('/sellerListing',function(req,res,next){
   if (!id){
     id = 'joely';
   }
+    console.log("params: " + req.params);
+    console.log("query: " + req.query);
 
   db.getUserListing(id, function(err, data){
     if (err){
@@ -152,9 +162,6 @@ router.get('/saleHistory',function(req,res,next){
 /* GET sellerAdd page. */
 router.get('/sellerAdd', function(req, res, next) {
     //Get the possible colours from the database
-    db.getActiveListings(function (err, res2) {
-        console.log(res2);
-    });
     var colours = [];
     var types = [];
     db.getAllColours(function (err, dbColours) {
@@ -168,48 +175,17 @@ router.get('/sellerAdd', function(req, res, next) {
                     console.log(err);
                 } else {
                     types = dbTypes;
-                    //console.log(types);
-                    if (req.query.ListingTitle == null) {
-                        //If no data has been submitted, display the add a listing page (sellerAdd)
-
-                        res.render('sellerAdd', {title: 'Add a listing', colours: colours, types: types });
-                    } else {
-                        //If data has been submitted, create a new listing record in the database
-                        var SellerKey = 1; //Default for now. This should be passed in depending on the auth type we use.
-                        var TypeKey = req.query.TypeKey; //Default for now. Will be passed from res.query.TypeKey
-                        var ListingTitle = req.query.ListingTitle;
-                        var ListingDesc = req.query.ListingDesc;
-                        var ListingPrice = req.query.ListingPrice;
-                        var ListingImage = "./2.jpg"; //Default for now. This part will need an upload feature.
-                        //Before adding data to the database, first validate & check the data is in the right format (int, string, etc.)
-
-
-                        //Now add the data to the listing table
-
-                        db.addListing(SellerKey,TypeKey,ListingTitle,ListingDesc,ListingPrice,ListingImage,function(err) {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                //Will then need to add records to ListingColour and ListingSize tables.
-                                /*
-                                for (var i=0; i<colours.length; i++) {
-                                    var colKey = colours[i].ColourKey;
-                                    if (req.query.colKey != null) {
-                                        db.addListingColour(ListingKey,colKey,function(err) {
-                                            if (err) console.log(err);
-                                        });
-                                    }
-                                }
-                                */
-                            }
-                        });
-
-                        //Then, display the listing on the listing page?? Or go back to the sellerAdd page?
-                        res.render('sellerAdd', {title: 'Add a listing', colours: colours, types: types });
-                    }
+                    res.render('sellerAdd', {title: 'Add a listing', user:user, colours: colours, types: types });
                 }
             });
         }
+    });
+});
+
+router.post("/add", upload.single('fileUpload'),function(req,res,next) {
+    viewlisting.createListing(req, res, user, function(colours,types) {
+        res.redirect('/sellerListing?user=' + user.username); //TODO How should I be passing in username here?
+        //res.render('sellerAdd', {title: 'Add a listing', user:user, colours: colours, types: types });
     });
 });
 
@@ -225,11 +201,13 @@ router.get('/search', function(req, res, next) {
     //get the search params from url
     var urlparts = url.parse(req.url, true);
     //pass to searchdatabase file to get results
-    searchDatabase.basicSearch(function (resultsArray){
-        //console.log(resultsArray);
-        //render results to page
-        res.render('searchpage', { results: resultsArray});
-    });
+    searchDatabase.basicSearch(urlparts, function (resultsArray){
+        var dummy=[];
+        //check for failed data and change to safe array to pass
+        if(resultsArray==undefined || resultsArray[0]==undefined){
+            resultsArray=dummy;
+        }
+        res.render('searchpage', { results: resultsArray, resultslength: resultsArray.length});});
 });
 
 
@@ -247,9 +225,6 @@ router.get('/admin', function(req, res){
 router.post('/login', function(req, res){
 
     login.login(req.body.user,req.body.pass, function(result){
-
-       // console.log("the result is == " +result);
-
         var validLogin = (result==true);
         var errorAlert;
 
@@ -265,6 +240,11 @@ router.post('/login', function(req, res){
             user.loggedIn = true;
             //render success message
             res.render('login', {errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
+
+            /*TODO -- here we are just rendering a shitty success message, would be cool if we could redirect to the seller home page or whatever*/
+
+           // backURL=req.header('Referer') || '/sellerView';
+           // res.redirect('sellerView');
         }
         else {
             //failed login so print error
@@ -281,7 +261,6 @@ router.get('/login', function(req, res){
 router.get('/logout', function(req, res){
     if(user.loggedIn==false){
         backURL=req.header('Referer') || '/login';
-        // do your thang
         res.redirect(backURL);
     }
     else {
@@ -289,7 +268,7 @@ router.get('/logout', function(req, res){
         user.username="";
         backURL=req.header('Referer') || '/login';
         // do your thang
-        res.redirect(backURL);
+        res.render('login', {message: 'Thanks for shopping with us!', loggedIn: user.loggedIn});
     }
 
 });
@@ -299,7 +278,6 @@ router.get('/register', function(req,res){
 })
 
 router.post('/register', function(req,res){
-    console.log(req.body);
     login.register(req.body,function(result){
         if(result){
             res.render('register', {message:'successfully registered!'});

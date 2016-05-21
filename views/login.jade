@@ -37,10 +37,11 @@ block body
                         #forgot-password
                             a(href='#') Forgot Your Password?
                         #create-account
-                            a(href='/signup') Create An Account
+                            a(href='/register') Create An Account
                     .clearfix
 
         else if (loggedIn==false)
+            h1 #{message}
             h1 Please log in using the below form
             form.well(id='form-login', method='post')
                 h2 Welcome to Hats!
