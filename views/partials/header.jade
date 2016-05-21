@@ -1,5 +1,12 @@
-
-a.btn.btn-default.btn-lg.right(href="/login",role="button") Login
+//- if(user.loggedIn)
+//- 	#welcome(style='float:right')
+//- 		p Welcome 
+//- 		b=user.username + "!"
+//- 	#language(style="float:right; padding-right:20px" )
+//- 		+dropdown("Language",[
+//- 			{text:"中文",url:"/c"},
+//- 			{text:"English",url:"/"}])
+//- else		
 #language(style="float:right")
 	+dropdown("Language",[
 	 	{text:"中文",url:"/c"},

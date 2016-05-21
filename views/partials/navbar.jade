@@ -14,24 +14,73 @@
           span.caret
         ul.dropdown-menu(role='menu')
           li
-            a(href='#') Top Hats
+            a(href='search?searchbar=tophat') Top Hats
           li
-            a(href='#') Beanies
+            a(href='search?searchbar=Beanies') Beanies
           li
-            a(href='#') Caps
+            a(href='search?searchbar=Caps') Caps
       li.dropdown
         a.dropdown-toggle(href='#', data-toggle='dropdown')
           | Men 
           span.caret
         ul.dropdown-menu(role='menu')
           li
-            a(href='#') Top Hats
+            a(href='search?searchbar=tophat') Top Hats
           li
-            a(href='#') Beanies
+            a(href='search?searchbar=Beanies') Beanies
           li
-            a(href='#') Caps
-    ul.nav.navbar-nav.navbar-right
-      li
-        a(href='/') Home
-      li
-        a(href='/seller') Sell 
+            a(href='search?searchbar=Caps') Caps
+    if(user.loggedIn)
+      ul.nav.navbar-nav.navbar-right
+        li
+          a(href='/') Home
+        li
+          a(href='/seller') Sell 
+    else  
+      ul.nav.navbar-nav.navbar-right
+        li
+          a(href='/') Home
+        if(user.loggedIn)        
+          li
+            a(href='/seller') Sell   
+          li.active
+            a(href='/logout') Logout        
+        else
+          li
+            a(href='#myModal', data-toggle='modal', data-target='#myModal') Sell
+          li.active
+            a(href='/login') Login 
+      
+          
+//myModal
+//- #myModal.modal.fade
+//-   .modal-dialog
+//-     .modal-content
+//-       .modal-header
+//-         button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+//-         h4.modal-title Log-in
+//-       .modal-body
+//-         .form-group
+//-           label(for='exampleInputEmail1') Email address
+//-           input#exampleInputEmail1.form-control(placeholder='Enter email', type='email')
+//-         .form-group
+//-           label(for='exampleInputPassword1') Password
+//-           input#exampleInputPassword1.form-control(placeholder='Password', type='password')
+//-         p.text-right
+//-           a(href='#') Forgot password?
+//-       .modal-footer
+//-         a.btn(href='#', data-dismiss='modal') Close
+//-         a.btn.btn-primary(href='#') Log-in
+#myModal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+        h4.modal-title Log in
+      .modal-body
+        .form-group
+          p Please log in.
+      .modal-footer
+        a.btn(href='#', data-dismiss='modal') Close
+        a.btn.btn-primary(href='/login') Log-in
+          

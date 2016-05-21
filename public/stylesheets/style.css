@@ -3,6 +3,13 @@ body {
   font: 15px arial, sans-serif;
 }
 
+.listingContainer{
+  padding-left: 80px;
+  padding-right: 80px;
+  padding-top: 20px;
+
+}
+
 a {
   color: grey;
 }
@@ -50,6 +57,11 @@ img.center{
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+
+img.show{
+  max-width: 300px;
+
 }
 
 formCenter{

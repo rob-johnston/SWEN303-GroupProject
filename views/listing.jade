@@ -13,35 +13,38 @@ block body
     //Load the static navbar -------------------------------------------------------
     .container
         .header
-            if(user.loggedIn)
-                include ./partials/headerLoggedIn.jade
-            else
-                include ./partials/header.jade
+          include ./partials/header.jade
         include ./partials/navbar.jade
         //End loading static navbar --------------------------------------------
     //Get passed individual listing data in "results"
     //Display this data on the page in a meaningful way
     .container
-        .row
-            .col-md-7
-                //Maybe just scale the image instead of setting the size?
-                img(src='/images/' + results.ListingImage, alt='logo',style='width:500px;height:500px;')
-            .col-md-3
-                h2 #{results.ListingTitle}
-                p Price: $#{results.ListingPrice}
-                form(action="addToCart",method="put",id="form1" enctype="multipart/form-data")
-                    select(class="form-control",name="ColourKey")
-                        each colour in colours
-                            option(value='#{colour.ColourKey}') #{colour.ColourName}
-                    p More relevant info here...
-                    //Passing info to cart
-                    input(type="hidden" name="ListingKey" value='#{results.ListingKey}')
-                    input(type="hidden" name="ListingPrice" value='#{results.ListingPrice}')
-                    input(type="hidden" name="ListingImage" value='#{results.ListingImage}')
-                    input(type="hidden" name="ListingTitle" value='#{results.ListingTitle}')
-                    //Submit listing
-                    input(type="submit" form="form1" value="Add to cart")
+        .listingContainer
+            .row
+            
+                h1.center #{results.ListingTitle}
+                br
+                .col-md-7
+                    //Maybe just scale the image instead of setting the size?
+                    img.img-circle.show(src='/images/' + results.ListingImage, alt='logo')
+                .col-md-5
+                    br
+                    br
+                    p Price: $#{results.ListingPrice}
+                    form(action="addToCart",method="put",id="form1" enctype="multipart/form-data")
+                        select(class="form-control",name="ColourKey")
+                            each colour in colours
+                                option(value='#{colour.ColourKey}') #{colour.ColourName}
+                        p More relevant info here...
+                        //Passing info to cart
+                        input(type="hidden" name="ListingKey" value='#{results.ListingKey}')
+                        input(type="hidden" name="ListingPrice" value='#{results.ListingPrice}')
+                        input(type="hidden" name="ListingImage" value='#{results.ListingImage}')
+                        input(type="hidden" name="ListingTitle" value='#{results.ListingTitle}')
+                        //Submit listing
+                        input.btn.btn-primary(type="submit" form="form1" value="Add to cart")
 
-        .row
-            .col-md-6
-                p Description: #{results.ListingDesc}
+            .row
+                .col-md-6
+                    h4 Description
+                    p=results.ListingDesc

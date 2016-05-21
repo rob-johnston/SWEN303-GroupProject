@@ -151,12 +151,12 @@ router.get('/sellerListing',function(req,res,next){
 
 /*seller edit profile*/
 router.get('/editProfile',function(req,res,next){
-  res.render('editSeller');
+  res.render('editSeller', {user:user} );
 });
 
 /*seller sale history*/
 router.get('/saleHistory',function(req,res,next){
-  res.render('saleHistory');
+  res.render('saleHistory', {user:user});
 });
 
 /* GET sellerAdd page. */
@@ -193,7 +193,7 @@ router.post("/add", upload.single('fileUpload'),function(req,res,next) {
 router.get('/searchpage', function(req, res, next) {
     //passing an empty array since we assume this is the first visit to this page
   var array = [];
-  res.render('searchpage', { title: 'searchpage', results: array });
+  res.render('searchpage', { title: 'searchpage', results: array, user:user });
 });
 
 /* Execute a search and display results on searchpage*/
@@ -207,7 +207,7 @@ router.get('/search', function(req, res, next) {
         if(resultsArray==undefined || resultsArray[0]==undefined){
             resultsArray=dummy;
         }
-        res.render('searchpage', { results: resultsArray, resultslength: resultsArray.length});});
+        res.render('searchpage', { results: resultsArray, resultslength: resultsArray.length,user:user});});
 });
 
 
@@ -274,7 +274,7 @@ router.get('/logout', function(req, res){
 });
 
 router.get('/register', function(req,res){
-    res.render('register');
+    res.render('register',{user:user});
 })
 
 router.post('/register', function(req,res){
