@@ -239,7 +239,7 @@ router.post('/login', function(req, res){
             user.username = req.body.user;
             user.loggedIn = true;
             //render success message
-            res.render('login', {errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
+            res.render('login', {user: user, errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
 
             /*TODO -- here we are just rendering a shitty success message, would be cool if we could redirect to the seller home page or whatever*/
 
@@ -248,14 +248,14 @@ router.post('/login', function(req, res){
         }
         else {
             //failed login so print error
-            res.render('login', {errorAlert: errorAlert})
+            res.render('login', {user: user, errorAlert: errorAlert})
         }
     })
 });
 
 /* Setup route.*/
 router.get('/login', function(req, res){
-      res.render('login', {loggedIn: user.loggedIn, username : user.username});
+      res.render('login', {user: user, loggedIn: user.loggedIn, username : user.username});
 });
 
 router.get('/logout', function(req, res){
@@ -268,7 +268,7 @@ router.get('/logout', function(req, res){
         user.username="";
         backURL=req.header('Referer') || '/login';
         // do your thang
-        res.render('login', {message: 'Thanks for shopping with us!', loggedIn: user.loggedIn});
+        res.render('login', {user: user, message: 'Thanks for shopping with us!', loggedIn: user.loggedIn});
     }
 
 });

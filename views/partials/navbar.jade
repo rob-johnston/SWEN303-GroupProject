@@ -35,14 +35,14 @@
         li
           a(href='/') Home
         li
-          a(href='/seller') Sell 
+          a(href='/seller?user=#{user.username}') Sell
     else  
       ul.nav.navbar-nav.navbar-right
         li
           a(href='/') Home
         if(user.loggedIn)        
           li
-            a(href='/seller') Sell   
+            a(href='/seller') Sell
           li.active
             a(href='/logout') Logout        
         else
