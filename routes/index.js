@@ -31,7 +31,7 @@ var item1 = {
 
 var cart = [item,item1];
 var user = {
-    username:"joely", email:"", loggedIn: false, cart: cart
+    username:"joely", email:"", loggedIn: false, cart: cart, admin: true
 };
 
 
@@ -211,6 +211,9 @@ router.get('/search', function(req, res, next) {
         if(resultsArray==undefined || resultsArray[0]==undefined){
             resultsArray=dummy;
         }
+
+        console.log('admin');
+        console.log(user.admin);
         res.render('searchpage', { results: resultsArray, resultslength: resultsArray.length,user:user});});
 });
 
