@@ -14,7 +14,8 @@
         addListing:addListing,
         getAllTypes:getAllTypes,
         addListingColour:addListingColour,
-        getUserListing: getUserListings,
+        getUserListings: getUserListings,
+        getDeletedUserListings: getDeletedUserListings,
         deleteListing: deleteListing,
         getListingColours: getListingColours
     };
@@ -74,7 +75,14 @@
      * @param cb callback function
      */
     function getUserListings(user, cb){
-        var stmt = 'SELECT * FROM VListing WHERE Seller = ?';
+        var stmt = 'SELECT * FROM VListing WHERE Seller = ? AND IsDeleted = 0';
+
+        db.all(stmt, [user], cb);
+    }
+
+    function getDeletedUserListings(user, cb){
+        //Order by the put newly created listings first
+        var stmt = 'SELECT * FROM VListing WHERE Seller = ? AND IsDeleted = 1 ORDER BY ListingKey DESC';
 
         db.all(stmt, [user], cb);
     }
@@ -126,7 +134,7 @@
      * @param cb callback function
      */
     function deleteListing(key, cb){
-        var stmt = 'UPDATE Listing SET isDeleted = 0 WHERE ListingKey = ?';
+        var stmt = 'UPDATE Listing SET isDeleted = 1 WHERE ListingKey = ?';
 
         db.run(stmt, [key], cb);
     }

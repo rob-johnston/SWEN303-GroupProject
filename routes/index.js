@@ -75,7 +75,7 @@ router.get('/checkout',function(req,res,next){
   db.db.get('SELECT * FROM User WHERE UserName = ?', user.username, function(err, result){
     if (err || !result){
       console.log(err);
-      //res.send(404);
+      //res.sendStatus(404);
     } else {
         var userData = result ? result : [];
         console.log("userData");
@@ -120,7 +120,7 @@ router.get('/seller',function(req,res,next){
   db.db.get('SELECT * FROM User WHERE UserName = ?', id, function(err, r1){
     if (err || !r1){
       console.log(err);
-      res.send(404);
+      res.sendStatus(404);
     } else {
 
       //Find all the user reviews
@@ -138,15 +138,14 @@ router.get('/sellerListing',function(req,res,next){
   var id = req.query.user;
 
   if (!id){
-    id = 'joely';
+    res.sendStatus(404);
+    return;
   }
 
-  db.getUserListing(id, function(err, data){
+  db.getUserListings(id, function(err, data){
     if (err){
-      console.log(err);
-      res.send(404);
+      res.sendStatus(404);
     } else {
-      console.log(data);
       res.render('sellerListing', {user:user, listings: data})
     }
   });
@@ -160,7 +159,22 @@ router.get('/editProfile',function(req,res,next){
 
 /*seller sale history*/
 router.get('/saleHistory',function(req,res,next){
-  res.render('saleHistory', {user:user});
+  var id = req.query.user;
+
+  console.log(req.query.user);
+  if (!id){
+    res.sendStatus(404);
+    return;
+  }
+
+  db.getDeletedUserListings(id, function(err, data){
+    if (err){
+      res.sendStatus(404);
+      console.log(err);
+    } else {
+      res.render('saleHistory', {user:user, listings:data});
+    }
+  });
 });
 
 /* GET sellerAdd page. */
@@ -184,6 +198,27 @@ router.get('/sellerAdd', function(req, res, next) {
             });
         }
     });
+});
+
+//POST to delete a listing
+router.post("/sellerListing", function(req, res, next){
+  var key = req.body.key;
+  var seller = req.body.seller;
+
+  console.log(key, seller);
+
+  if (seller != user.username && !user.admin){
+    res.sendStatus(401); //Check the user is allowed to delete this listing
+  }
+
+  //delete the listing, and redirect to the seller's listing page
+  db.deleteListing(key, function(err){
+    if (err){
+      res.sendStatus(500);
+    } else {
+      res.redirect('/sellerListing?user=' + seller);
+    }
+  })
 });
 
 router.post("/add", upload.single('fileUpload'),function(req,res,next) {

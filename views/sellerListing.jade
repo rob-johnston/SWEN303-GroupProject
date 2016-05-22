@@ -35,8 +35,12 @@ block body
 					
 					//we need this to delete the listing.
 					.col-md-2
-						a(href='/sellerAdd')
-							span.glyphicon.glyphicon-minus-sign.red(style="font-size:2em;float:right")
+						form(id='delete', method='post' enctype='application/json')
+							button(type="submit" style="font-size:2em;float:right; background: none").btn.span.glyphicon.glyphicon-minus-sign.red
+							input(id="key" name="key" value="#{listing.ListingKey}" style="visibility:hidden")
+							input(id="seller" name="seller" value="#{listing.Seller}" style="visibility:hidden")
+						//a(href='/sellerAdd')
+						//	span.glyphicon.glyphicon-minus-sign.red(style="font-size:2em;float:right")
 
 				//- .col-md-2
 
