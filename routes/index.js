@@ -31,7 +31,7 @@ var item1 = {
 
 var cart = [item,item1];
 var user = {
-    username:"joely", email:"", loggedIn: false, cart: cart, admin: true
+    username:"", email:"", loggedIn: false, cart: cart, admin: false
 };
 
 
@@ -207,21 +207,51 @@ router.get('/searchpage', function(req, res, next) {
   res.render('searchpage', { title: 'searchpage', results: array, user:user });
 });
 
+
+
 /* Execute a search and display results on searchpage*/
 router.get('/search', function(req, res, next) {
+
     //get the search params from url
     var urlparts = url.parse(req.url, true);
-    //pass to searchdatabase file to get results
-    searchDatabase.basicSearch(urlparts, function (resultsArray){
-        var dummy=[];
-        //check for failed data and change to safe array to pass
-        if(resultsArray==undefined || resultsArray[0]==undefined){
-            resultsArray=dummy;
-        }
+    console.log(urlparts);
 
-        console.log('admin');
-        console.log(user.admin);
-        res.render('searchpage', { results: resultsArray, resultslength: resultsArray.length,user:user});});
+
+    //if we detect a reference to a listing key we need to delete it
+    if(urlparts.query.target!=undefined){
+        backURL = req.header('Referer') || '/';
+        console.log(backURL);
+        var urlparts = url.parse(req.url, true);
+        //do the deleting
+        db.deleteListing(parseInt(urlparts.query.target), function (err, ret){
+            if(err){
+                print(err);
+            }
+        });
+    }
+    //change the url if this was a delete
+    if(url.parse(req.url, true).query.target!=undefined){
+        urlparts = url.parse(backURL, true);
+    }
+
+
+        //now load results
+        //pass to searchdatabase file to get results
+        searchDatabase.basicSearch(urlparts, function (resultsArray) {
+            var dummy = [];
+            //check for failed data and change to safe array to pass
+            if (resultsArray == undefined || resultsArray[0] == undefined) {
+                resultsArray = dummy;
+            }
+            //if this was a delete from earlier then load the referer page given from urls path
+            if(url.parse(req.url, true).query.target!=undefined){
+                res.redirect(urlparts.path);
+            }
+            else {
+                //otherwise this is a legit search so render with results from db query
+                res.render('searchpage', { results: resultsArray, resultslength: resultsArray.length,user:user});
+            }
+        });
 });
 
 
@@ -238,7 +268,7 @@ router.get('/admin', function(req, res){
 
 router.post('/login', function(req, res){
 
-    login.login(req.body.user,req.body.pass, function(result){
+    login.login(req.body.user,req.body.pass, function(result, userObject){
         var validLogin = (result==true);
         var errorAlert;
 
@@ -250,10 +280,12 @@ router.post('/login', function(req, res){
         }
         //if  login is valid then sign user in
         if(validLogin) {
+            //console.log(userObject);
             user.username = req.body.user;
             user.loggedIn = true;
+            user.admin = userObject.UserAdmin;
             //render success message
-            res.render('sellerView', {user: user, errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
+            res.render('login', {user: user, errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
 
             /*TODO -- here we are just rendering a shitty success message, would be cool if we could redirect to the seller home page or whatever*/
 
@@ -299,8 +331,35 @@ router.post('/register', function(req,res){
             res.render('register', {user: user, message: 'error while registering, invalid information or username already exists'});
         }
 
+
     });
 })
+
+
+/*Delete a listing when admin. */
+router.get('/deleteListing', function(req, res) {
+
+
+   backURL = req.header('Referer') || '/';
+
+    if (user.admin != 1)
+    {
+        res.writeHead(301, {Location: backURL, user: user});
+        res.end();
+    }
+
+    //Get the individual listing ID from the url.
+    var urlparts = url.parse(req.url, true);
+
+    db.deleteListing(parseInt(urlparts.query.ListingKey), function (err, ret){
+        if(err){
+            print(err);
+        }
+        res.writeHead(301, {Location: backURL, user:user});
+        res.end();
+    });
+
+});
 
 
 module.exports = router;

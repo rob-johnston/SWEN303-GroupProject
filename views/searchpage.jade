@@ -73,9 +73,10 @@ block body
                                                 h4 Description
                                                 p
                                                     |#{listing.ListingDesc}
-                                                    
                                             .col-md-2
                                                 if(user.admin)
-                                                  a(href='/deleteListing')
-                                                    span.glyphicon.glyphicon-minus-sign.red(style="font-size:2em;float:right")
+                                                    form(id = 'searchbox', name ='search', action='/search', method='GET')
+                                                        input(type="hidden" name="target" value="#{listing.ListingKey}")
+                                                        +submit("delete")
+                                                        span.glyphicon.glyphicon-minus-sign.red(style="font-size:2em;float:right" type = 'submit' value = 'delete')
                                         

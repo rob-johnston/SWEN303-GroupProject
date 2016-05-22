@@ -126,7 +126,7 @@
      * @param cb callback function
      */
     function deleteListing(key, cb){
-        var stmt = 'UPDATE Listing SET isDeleted = 0 WHERE ListingKey = ?';
+        var stmt = 'UPDATE Listing SET isDeleted = 1 WHERE ListingKey = ?';
 
         db.run(stmt, [key], cb);
     }
