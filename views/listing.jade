@@ -42,9 +42,26 @@ block body
                         input(type="hidden" name="ListingImage" value='#{results.ListingImage}')
                         input(type="hidden" name="ListingTitle" value='#{results.ListingTitle}')
                         //Submit listing
-                        input.btn.btn-primary(type="submit" form="form1" value="Add to cart")
+                        if(user.loggedIn)
+                            input.btn.btn-primary(type="submit" form="form1" value="Add to cart")
+                        else
+                            input.btn.btn-primary(href='#myModal', data-toggle='modal', data-target='#myModal', value="Add to cart")
 
             .row
                 .col-md-6
                     h4 Description
                     p=results.ListingDesc
+
+//Same as modal on navbar.jade
+#myModal.modal.fade
+    .modal-dialog
+        .modal-content
+            .modal-header
+                button.close(type='button', data-dismiss='modal', aria-hidden='true') ×
+                h4.modal-title Log in
+            .modal-body
+                .form-group
+                    p Please log in.
+            .modal-footer
+                a.btn(href='#', data-dismiss='modal') Close
+                a.btn.btn-primary(href='/login') Log-in

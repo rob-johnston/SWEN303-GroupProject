@@ -30,7 +30,7 @@
                 });
             }
         });
-    }
+    };
 
     module.exports.createListing = function(req, res, user, callback){
         var origName = "logo.png"; //Default image if no image was provided.
@@ -72,44 +72,46 @@
                             callback(colours,types);
                         } else {
                             //If data has been submitted, create a new listing record in the database
-                            var SellerKey = 1; //Default for now. This should be passed in depending on the auth type we use.
-                            var TypeKey = req.body.TypeKey;
-                            var ListingTitle = req.body.ListingTitle;
-                            var ListingDesc = req.body.ListingDesc;
-                            var ListingPrice = req.body.ListingPrice;
-                            var ListingImage = "./" + origName;
-                            //TODO Before adding data to the database, first validate & check the data is in the right format (int, string, etc.)
-
-                            //Now add the data to the listing table
-                            db.addListing(SellerKey,TypeKey,ListingTitle,ListingDesc,ListingPrice,ListingImage,function(rowNum,err) {
-                                if (err) {
+                            db.db.get('SELECT * FROM User WHERE UserName = ?', user.username, function(err, r1) {
+                                if (err || !r1) {
                                     console.log(err);
+                                    res.send(404);
                                 } else {
-                                    //Will then need to add records to ListingColour and ListingSize tables.
-                                    //console.log(this.lastID);
-                                    db.db.get("SELECT ListingKey FROM Listing WHERE RowID=?",[this.lastID], function(ListingKey,err) {
-                                        if (err) {
-                                            //ListingKey is stored in err.
-                                            for (var i=0; i<colours.length; i++) {
-                                                var colKey = colours[i].ColourKey;
-                                                console.log(colKey);
-                                                console.log("Works: " + req.body[colKey]);
-                                                if (req.body[colKey] != null && req.body[colKey] != 0) {
-                                                    db.addListingColour(err.ListingKey,colKey,function(err) {
-                                                        if (err) console.log(err);
-                                                    });
-                                                }
-                                            }
-                                        }
-                                        else {
+                                    var SellerKey = r1.UserKey; //Get userKey from db
+                                    var TypeKey = req.body.TypeKey; //Drop down box on sellerAdd page, so always has a value
+                                    var ListingTitle = req.body.ListingTitle; //Required on sellerAdd page, so always has a value
+                                    var ListingDesc = req.body.ListingDesc; //May not have a value, but that's ok
+                                    var ListingPrice = req.body.ListingPrice; //Required greater than 0.5 on sellerAdd page
+                                    var ListingImage = "./" + origName; //Default is hat logo, so always has a value
 
+                                    //Now add the data to the listing table
+                                    db.addListing(SellerKey,TypeKey,ListingTitle,ListingDesc,ListingPrice,ListingImage,function(err) {
+                                        if (err) {
+                                            console.log(err);
+                                        } else {
+                                            //Will then need to add records to ListingColour and ListingSize tables.
+                                            db.db.get("SELECT ListingKey FROM Listing WHERE RowID=?",[this.lastID], function(err, ListingKey) {
+                                                if (err) console.log(err);
+                                                else {
+                                                    for (var i=0; i<colours.length; i++) {
+                                                        var colKey = colours[i].ColourKey;
+                                                        console.log(colKey);
+                                                        console.log("Works: " + req.body[colKey]);
+                                                        if (req.body[colKey] != null && req.body[colKey] != 0) {
+                                                            db.addListingColour(ListingKey.ListingKey,colKey,function(err) {
+                                                                if (err) console.log(err);
+                                                            });
+                                                        }
+
+                                                    }
+                                                }
+                                            });
                                         }
                                     });
+
+                                    callback(colours,types);
                                 }
                             });
-
-                            //TODO Then, display the listing on the listing page?? Or go back to the sellerAdd page?
-                            callback(colours,types);
                         }
                     }
                 });

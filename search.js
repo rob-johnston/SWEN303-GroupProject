@@ -19,15 +19,17 @@ var results = [];
 
         //if a basic search from main menu, do something slightly different!!!!!!!
         if(searchparameters.query.maxprice==undefined){
-            var stmt = 'SELECT * FROM Listing WHERE isDeleted == 0 ';
+            var stmt = 'SELECT * FROM VListing WHERE isDeleted == 0 ';
             for (var i=0; i< searchWords.length; i++){
-                stmt += "AND (ListingTitle LIKE \'%" + searchWords[i] + "%\' OR ListingDesc LIKE \'%" + searchWords[i] +"%\') ";
+                stmt += "AND (ListingTitle LIKE \'%" + searchWords[i] + "%\' OR ListingDesc LIKE \'%" + searchWords[i] +"%\'" +
+                  "OR Type LIKE \'%"+ searchWords[i] + "%\' OR Seller LIKE \'%"+ searchWords[i] + "%\') ";
             }
         } else {
             //super dirty sql query
-            var stmt = 'SELECT * FROM Listing WHERE isDeleted == 0 ';
+            var stmt = 'SELECT * FROM VListing WHERE isDeleted == 0 ';
             for (var i=0; i< searchWords.length; i++){
-                stmt += "AND (ListingTitle LIKE \'%" + searchWords[i] + "%\' OR ListingDesc LIKE \'%" + searchWords[i] +"%\') ";
+                stmt += "AND (ListingTitle LIKE \'%" + searchWords[i] + "%\' OR ListingDesc LIKE \'%" + searchWords[i] +"%\'" +
+                  "OR Type LIKE \'%"+ searchWords[i] + "%\' OR Seller LIKE \'%"+ searchWords[i] + "%\') ";
             }
             //make it even dirtier
             stmt += "AND ListingPrice < " + searchparameters.query.maxprice +" AND ListingPrice > " + searchparameters.query.minprice;
