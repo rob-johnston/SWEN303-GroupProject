@@ -73,8 +73,9 @@ block body
                                                 h4 Description
                                                 p
                                                     |#{listing.ListingDesc}
-                                            //for admin
-                                            //- .col-md-2
-                                            //- a(href='/sellerAdd')
-                                            //-   span.glyphicon.glyphicon-minus-sign.red(style="font-size:2em;float:right")
+                                                    
+                                            .col-md-2
+                                                if(user.admin)
+                                                  a(href='/deleteListing')
+                                                    span.glyphicon.glyphicon-minus-sign.red(style="font-size:2em;float:right")
                                         
