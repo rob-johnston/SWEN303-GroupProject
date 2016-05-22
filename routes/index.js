@@ -353,19 +353,20 @@ router.get('/register', function(req,res){
     res.render('register',{user:user});
 })
 
-router.post('/register', function(req,res){
-    login.register(req.body,function(result){
-        if(result){
+router.post('/register', upload.single('fileUpload'), function(req,res){
+    viewlisting.saveImage(req,res,function(imageName) {
+        login.register(req.body,imageName,function(result){
+            if(result){
+                res.render('register', {user: user, message:'successfully registered!'});
 
-            res.render('register', {user: user, message:'successfully registered!'});
+            } else {
 
-        } else {
-
-            res.render('register', {
-                user: user,
-                message: 'error while registering, invalid information or username already exists'
-            });
-        }
+                res.render('register', {
+                    user: user,
+                    message: 'error while registering, invalid information or username already exists'
+                });
+            }
+        });
     });
 });
 

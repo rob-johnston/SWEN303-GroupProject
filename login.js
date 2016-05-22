@@ -30,7 +30,7 @@
     }
 
 
-    function register(req, callback){
+    function register(req, imageName, callback){
         var result=false;
         var initstmt = "SELECT * FROM User WHERE UserName =" + "\'"+req.username+"\'";
         db.get(initstmt, function(err,res){
@@ -42,20 +42,19 @@
                   if(req.username==undefined || req.password==undefined || req.address ==undefined || req.city==undefined){
                       result=false;
                   }
-
                 //no previous results so submit it to database
                     //if credit card fields are left blank
                    else if(req.cc==undefined || req.exp == undefined)   {
 
                         var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity)' +
                         'VALUES (?, ?, ?, ?, ?)';
-                         db.run(stmt, [req.username, req.password, null, req.address, req.city]);
+                         db.run(stmt, [req.username, req.password, imageName, req.address, req.city]);
                     }
                     else {
                     //otherwise assume credit card details are legit
                         var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity, UserCreditCard, UserExpiry)' +
                         'VALUES (?, ?, ?, ?, ?, ?, ?)';
-                         db.run(stmt, [req.username, req.password, null, req.address, req.city, req.cc, req.exp]);
+                         db.run(stmt, [req.username, req.password, imageName, req.address, req.city, req.cc, req.exp]);
                 }
             }
             else {

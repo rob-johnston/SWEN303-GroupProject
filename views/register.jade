@@ -16,7 +16,7 @@ block body
         include ./partials/navbar.jade
 
         h5.center(style="color:red") #{message}
-        form.well(id='form-login', method='post')
+        form.well(id='form-login', method='post' enctype="multipart/form-data")
 
             h2 Welcome to Hats!
             h5 Fill in the form to register a new account
@@ -26,6 +26,9 @@ block body
             .form-group
                 label Password
                 input.form-control(type='password', id='pass-rg', name='password')
+            .form-group
+                label Profile picture
+                input(type="file" value="Choose image file to Upload" name="fileUpload" accept="image/*")
             .form-group
                 label Address
                 input.form-control(type='text', id='address-tf', name='address')
