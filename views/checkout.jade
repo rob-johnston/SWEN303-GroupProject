@@ -16,21 +16,72 @@ block body
 		.row
 			.col-md-7
 				form(action="confirmation",method="get",id="ship")
-					p Name
-					input(class="form-control",type="text", name="ListingTitle", value=user.username,required)
-					//How should colours be submitted? Number of each colour, or only allow up to 1 for each colour?
-					p Address
-					p Street Address
-					input(class="form-control",type="text", name="streetadd", placeholder="E.g. 86 Polland Street",required)
-					p Suburb
-					input(class="form-control",type="text", name="suburb", placeholder="E.g. Island Bay",required)
-					p City
-					input(class="form-control",type="text", name="City", placeholder="E.g. Wellington",required)
-					p Country
-					input(class="form-control",type="text", name="country", placeholder="E.g. New Zealand",required)
-					p Postcode
-					input(class="form-control",type="text", name="postcode", placeholder="E.g. 5986",required)
-					//Not working because array is being passed in asynchronously (not in order) so it is empty...
-				
+					h3 Name
+					input(class="form-control",type="text", name="ListingTitle", value=userData.UserDisplayName,required)
+					//br
+					h3 Address
 					
-					input(type="submit", value="Submit")
+					p Street Address
+					if(userData.UserAddress!=null)
+						input(class="form-control",type="text", name="streetadd",value=userData.UserAddress,required)
+					else 
+						input(class="form-control",type="text", name="streetadd", placeholder="E.g. 86 Polland Street",required)
+					p City
+					if(userData.UserCity!=null)
+						input(class="form-control",type="text", name="City", value="UserCity",required)
+					else 
+						input(class="form-control",type="text", name="City", placeholder="E.g. Wellington",required)
+					p Postcode
+					if(userData.UserPostcode!=null)
+						input(class="form-control",type="text", name="postcode", value=userData.UserPostcode,required)
+					else
+						input(class="form-control",type="text", name="postcode", placeholder="E.g. 5986",required)
+					h3 Payment
+					.form-group
+							label Credit Card number
+							if(userData.UserCreditCard!=null)
+								input.form-control(id='cc-tf', name='cc' value=userData.UserCreditCard,required)
+							else
+								input.form-control(id='cc-tf', name='cc',required)
+							br
+							label Expiry
+							.row
+								.col-md-4								
+									label Month
+									select.form-control#month(name='month', onchange='', size='1')
+										option(value='01') January
+										option(value='02') February
+										option(value='03') March
+										option(value='04') April
+										option(value='05') May
+										option(value='06') June
+										option(value='07') July
+										option(value='08') August
+										option(value='09') September
+										option(value='10') October
+										option(value='11') November
+										option(value='12') December
+								
+								.col-md-4
+									label Year
+									select.form-control#month(name='month', onchange='', size='1')
+										option(value='01') 2016
+										option(value='02') 2017
+										option(value='03') 2018
+										option(value='04') 2019
+										option(value='05') 2020
+										option(value='06') 2021
+										option(value='07') 2022
+										option(value='08') 2023
+										option(value='09') 2024
+										option(value='10') 2025
+										option(value='11') 2026
+										option(value='12') 2027
+							br
+							.row
+								.col-md-3
+									label CVV
+									input.form-control(id='cvv-tf', name='cvv',required)
+					br
+					input.btn.btn-success(type="submit", value="Submit")
+			

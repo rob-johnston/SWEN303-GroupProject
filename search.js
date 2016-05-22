@@ -14,7 +14,6 @@ var results = [];
 
     module.exports.basicSearch = function(searchparameters, callback){
 
-        console.log(searchparameters.query);
 
         var searchWords = searchparameters.query.searchbar.split(' ');
 
@@ -32,19 +31,13 @@ var results = [];
             }
             //make it even dirtier
             stmt += "AND ListingPrice < " + searchparameters.query.maxprice +" AND ListingPrice > " + searchparameters.query.minprice;
-            console.log(stmt);
         }
 
             db.all(stmt, function (err, res) {
                 if (err) {
-                    console.log(err);
-                    console.log("error");
                     callback(results);
                 } else {
-                  console.log("no error");
-                  console.log(res);
-
-                    //call back to render the results on page
+                  //call back to render the results on page
                     callback(res);
                 }
 
