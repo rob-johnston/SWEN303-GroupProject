@@ -250,12 +250,12 @@ router.post('/login', function(req, res){
             user.username = req.body.user;
             user.loggedIn = true;
             //render success message
-            res.render('login', {user: user, errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
+            res.render('sellerView', {user: user, errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
 
             /*TODO -- here we are just rendering a shitty success message, would be cool if we could redirect to the seller home page or whatever*/
 
-           // backURL=req.header('Referer') || '/sellerView';
-           // res.redirect('sellerView');
+           //backURL=req.header('Referer') || '/seller';
+           //res.render(backURL, {user: user, errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
         }
         else {
             //failed login so print error
@@ -291,9 +291,9 @@ router.get('/register', function(req,res){
 router.post('/register', function(req,res){
     login.register(req.body,function(result){
         if(result){
-            res.render('register', {message:'successfully registered!'});
+            res.render('register', {user: user, message:'successfully registered!'});
         } else {
-            res.render('register', {message: 'error while registering, invalid information or username already exists'});
+            res.render('register', {user: user, message: 'error while registering, invalid information or username already exists'});
         }
 
     });
