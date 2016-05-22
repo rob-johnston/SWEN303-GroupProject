@@ -91,11 +91,6 @@ router.get('/addToCart',function(req,res,next){
     var ListingTitle = req.query.ListingTitle;
     var ListingImage = "/images" + req.query.ListingImage.substring(1);
     var ListingPrice = parseFloat(req.query.ListingPrice); //Have to parseFloat or it will be treated as a string and concatenated instead of added.
-    //console.log(ListingKey);
-    //console.log(ColourKey);
-    //console.log(ListingPrice);
-    //console.log(ListingImage);
-    //console.log(ListingTitle);
     //Item includes the ListingKey and ColourKey so we can remove from the database on checkout.
     var item = {name: ListingTitle, imageString: ListingImage, price: ListingPrice, ListingKey: ListingKey, ColourKey: ColourKey};
     user.cart.push(item);
@@ -129,13 +124,11 @@ router.get('/seller',function(req,res,next){
 
 /*seller listings page*/
 router.get('/sellerListing',function(req,res,next){
-  var id = req.params.user;
+  var id = req.query.user;
 
   if (!id){
     id = 'joely';
   }
-    console.log("params: " + req.params);
-    console.log("query: " + req.query);
 
   db.getUserListing(id, function(err, data){
     if (err){
@@ -184,7 +177,7 @@ router.get('/sellerAdd', function(req, res, next) {
 
 router.post("/add", upload.single('fileUpload'),function(req,res,next) {
     viewlisting.createListing(req, res, user, function(colours,types) {
-        res.redirect('/sellerListing?user=' + user.username); //TODO How should I be passing in username here?
+        res.redirect('/sellerListing?user=' + user.username);
         //res.render('sellerAdd', {title: 'Add a listing', user:user, colours: colours, types: types });
     });
 });
@@ -280,9 +273,9 @@ router.get('/register', function(req,res){
 router.post('/register', function(req,res){
     login.register(req.body,function(result){
         if(result){
-            res.render('register', {message:'successfully registered!'});
+            res.render('register', {user:user, message:'successfully registered!'});
         } else {
-            res.render('register', {message: 'error while registering, invalid information or username already exists'});
+            res.render('register', {user:user, message: 'error while registering, invalid information or username already exists'});
         }
 
     });
