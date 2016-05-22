@@ -359,38 +359,15 @@ router.post('/register', function(req,res){
 
         } else {
 
-            res.render('register', {user: user, message: 'error while registering, invalid information or username already exists'});
-
-
-
-    });
-})
-
-
-/*Delete a listing when admin. */
-router.get('/deleteListing', function(req, res) {
-
-
-   backURL = req.header('Referer') || '/';
-
-    if (user.admin != 1)
-    {
-        res.writeHead(301, {Location: backURL, user: user});
-        res.end();
-    }
-
-    //Get the individual listing ID from the url.
-    var urlparts = url.parse(req.url, true);
-
-    db.deleteListing(parseInt(urlparts.query.ListingKey), function (err, ret){
-        if(err){
-            print(err);
+            res.render('register', {
+                user: user,
+                message: 'error while registering, invalid information or username already exists'
+            });
         }
-        res.writeHead(301, {Location: backURL, user:user});
-        res.end();
     });
-
 });
+
+
 
 
 module.exports = router;
