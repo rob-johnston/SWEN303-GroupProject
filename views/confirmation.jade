@@ -9,41 +9,13 @@ append styles
 block body	
 	.container 
 		.header 
-			if(user.loggedIn)
-				a.btn.btn-default.btn-lg.right(href="/login",role="button") Login
-			else
-				#right(style='float:right;')
-					p= "Welcome "
-					b=user.username
-			img.center(src='images/title.jpg', alt='logo',style='max-width:100%; height:auto;width:auto')
-			
-			.center
-				#formCenter
-					form.center(id = 'searchbox', name ='search', action='/search', method='GET')
-						.col-md-8
-							input(class="form-control" type="text",name="title",placeholder="Search...",value=titleInput)
-						.col-md-1
-							input(class="btn btn-default" type="submit",value="search")
-			//shopping cart
-			a(href='/cart')
-				#para(style='float:right; font-size:1.5em;color:red') 
-					p(style='display:inline') (
-					p(style='display:inline')=user.cart.length
-					p(style='display:inline') ) 
-				span.glyphicon.glyphicon-shopping-cart.black(style="font-size:2.5em;float:right")
-			br
+			include ./partials/header.jade
 		include ./partials/navbar.jade
 	.container
 		.jumbotron
-				h1 Payment
-				p.lead
-					|Please pay to the account
+				h1 Thank you!
+				
 				p
-					|00-123456-789-10
-				p
-					|Reference: Your username
-				p
-					|A confirmation email will be sent to you after your have paid.
-				p
-					|If payment is not received within 48 hours, your order will be cancelled. 
+					|A confirmation email will be sent to you within 48 hours.
+			 
 					

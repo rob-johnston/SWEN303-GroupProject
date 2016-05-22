@@ -31,7 +31,7 @@ var item1 = {
 
 var cart = [item,item1];
 var user = {
-    username:"", email:"", loggedIn: false, cart: cart
+    username:"joely", email:"", loggedIn: false, cart: cart
 };
 
 
@@ -72,7 +72,18 @@ router.get('/removeItem/:index',function(req,res,next){
 
 /**checkout page**/
 router.get('/checkout',function(req,res,next){
-  res.render('checkout',{user:user});
+  db.db.get('SELECT * FROM User WHERE UserName = ?', user.username, function(err, result){
+    if (err || !result){
+      console.log(err);
+      //res.send(404);
+    } else {
+        var userData = result ? result : [];
+        console.log("userData");
+        console.log(userData);
+        res.render('checkout', {user:user, userData:userData});
+    }
+  });
+  //res.render('checkout',{user:user});
 });
 
 /**confirmation page**/
