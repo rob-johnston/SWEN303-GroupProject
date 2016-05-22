@@ -5,6 +5,12 @@
 (function(){
 
     var db = require('./db');
+    //For uploading
+    var multer = require('multer');
+    var upload = multer({dest: '../public/images'});
+
+    //for renaming files
+    var fs = require('fs');
 
     //need a more complex search
 
@@ -32,7 +38,7 @@
         });
     };
 
-    module.exports.createListing = function(req, res, user, callback){
+    module.exports.saveImage = function(req, res, callback) {
         var origName = "logo.png"; //Default image if no image was provided.
         if (req.file != null) {
             //getting current directory
@@ -42,8 +48,8 @@
 
             //renaming the file to its original name
             fs.rename(req.file.path, '../public/images/' + origName,
-                function(err){
-                    if(err){
+                function (err) {
+                    if (err) {
                         hasError = true;
                         console.log("RENAMING ERROR");
                         console.log(err);
@@ -52,7 +58,10 @@
                 }
             );
         }
+        callback("./" + origName);
+    };
 
+    module.exports.createListing = function(req, res, user, imageName, callback){
         var colours = [];
         var types = [];
         db.getAllColours(function (err, dbColours) {
@@ -82,7 +91,7 @@
                                     var ListingTitle = req.body.ListingTitle; //Required on sellerAdd page, so always has a value
                                     var ListingDesc = req.body.ListingDesc; //May not have a value, but that's ok
                                     var ListingPrice = req.body.ListingPrice; //Required greater than 0.5 on sellerAdd page
-                                    var ListingImage = "./" + origName; //Default is hat logo, so always has a value
+                                    var ListingImage = imageName; //Default is hat logo, so always has a value
 
                                     //Now add the data to the listing table
                                     db.addListing(SellerKey,TypeKey,ListingTitle,ListingDesc,ListingPrice,ListingImage,function(err) {
@@ -95,8 +104,6 @@
                                                 else {
                                                     for (var i=0; i<colours.length; i++) {
                                                         var colKey = colours[i].ColourKey;
-                                                        console.log(colKey);
-                                                        console.log("Works: " + req.body[colKey]);
                                                         if (req.body[colKey] != null && req.body[colKey] != 0) {
                                                             db.addListingColour(ListingKey.ListingKey,colKey,function(err) {
                                                                 if (err) console.log(err);

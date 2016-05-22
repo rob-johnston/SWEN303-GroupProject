@@ -222,9 +222,11 @@ router.post("/sellerListing", function(req, res, next){
 });
 
 router.post("/add", upload.single('fileUpload'),function(req,res,next) {
-    viewlisting.createListing(req, res, user, function(colours,types) {
-        res.redirect('/sellerListing?user=' + user.username);
-        //res.render('sellerAdd', {title: 'Add a listing', user:user, colours: colours, types: types });
+    viewlisting.saveImage(req, res, function(imageName) {
+        viewlisting.createListing(req, res, user, imageName, function(colours,types) {
+            res.redirect('/sellerListing?user=' + user.username);
+            //res.render('sellerAdd', {title: 'Add a listing', user:user, colours: colours, types: types });
+        });
     });
 });
 
