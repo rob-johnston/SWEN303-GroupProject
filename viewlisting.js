@@ -30,7 +30,7 @@
                 });
             }
         });
-    }
+    };
 
     module.exports.createListing = function(req, res, user, callback){
         var origName = "logo.png"; //Default image if no image was provided.
@@ -77,7 +77,7 @@
                                     console.log(err);
                                     res.send(404);
                                 } else {
-                                    var SellerKey = r1.userKey; //Get userKey from db
+                                    var SellerKey = r1.UserKey; //Get userKey from db
                                     var TypeKey = req.body.TypeKey; //Drop down box on sellerAdd page, so always has a value
                                     var ListingTitle = req.body.ListingTitle; //Required on sellerAdd page, so always has a value
                                     var ListingDesc = req.body.ListingDesc; //May not have a value, but that's ok
@@ -85,28 +85,25 @@
                                     var ListingImage = "./" + origName; //Default is hat logo, so always has a value
 
                                     //Now add the data to the listing table
-                                    db.addListing(SellerKey,TypeKey,ListingTitle,ListingDesc,ListingPrice,ListingImage,function(rowNum,err) {
+                                    db.addListing(SellerKey,TypeKey,ListingTitle,ListingDesc,ListingPrice,ListingImage,function(err) {
                                         if (err) {
                                             console.log(err);
                                         } else {
                                             //Will then need to add records to ListingColour and ListingSize tables.
-                                            //console.log(this.lastID);
-                                            db.db.get("SELECT ListingKey FROM Listing WHERE RowID=?",[this.lastID], function(ListingKey,err) {
-                                                if (err) {
-                                                    //ListingKey is stored in err.
+                                            db.db.get("SELECT ListingKey FROM Listing WHERE RowID=?",[this.lastID], function(err, ListingKey) {
+                                                if (err) console.log(err);
+                                                else {
                                                     for (var i=0; i<colours.length; i++) {
                                                         var colKey = colours[i].ColourKey;
                                                         console.log(colKey);
                                                         console.log("Works: " + req.body[colKey]);
                                                         if (req.body[colKey] != null && req.body[colKey] != 0) {
-                                                            db.addListingColour(err.ListingKey,colKey,function(err) {
+                                                            db.addListingColour(ListingKey.ListingKey,colKey,function(err) {
                                                                 if (err) console.log(err);
                                                             });
                                                         }
-                                                    }
-                                                }
-                                                else {
 
+                                                    }
                                                 }
                                             });
                                         }
