@@ -182,6 +182,72 @@ router.get('/editProfile',function(req,res,next){
   res.render('editSeller', {user:user} );
 });
 
+/*seller edit profile*/
+router.post('/editSeller',upload.single('fileUpload'),function(req,res,next){
+    //If successful, redirect to seller page
+    var newName = req.body.name;
+    var newDesc = req.body.description;
+    var newCont = req.body.contact;
+    var newPass = req.body.password;
+    var initstmt = "SELECT * FROM User WHERE UserName = ?";
+    db.db.get(initstmt, [newName], function(err,results) {
+        if (results == null) {
+            //Username doesn't already exist!
+            //Change description
+            if (newDesc != null && newDesc != "") {
+                //Try to put user into the database, if unsuccessful show editSeller page with fields filled out.
+                var stmt = 'UPDATE User SET UserDesc=? WHERE UserName=?';
+                db.db.run(stmt, [newDesc, user.username],function(err, results) {
+                    if (err) console.log(err);
+                });
+            }
+            //Change contact details
+            if (newCont != null && newCont != "") {
+                //Try to put user into the database, if unsuccessful show editSeller page with fields filled out.
+                var stmt = 'UPDATE User SET UserContact=? WHERE UserName=?';
+                db.db.run(stmt, [newCont, user.username],function(err, results) {
+                    if (err) console.log(err);
+                    else user.email = newCont;
+                });
+            }
+            //Change password
+            if (newPass != null && newPass != "") {
+                //Try to put user into the database, if unsuccessful show editSeller page with fields filled out.
+                var stmt = 'UPDATE User SET UserPassword=? WHERE UserName=?';
+                db.db.run(stmt, [newPass, user.username],function(err, results) {
+                    if (err) console.log(err);
+                });
+            }
+            //Change image
+            if (req.file != null) {
+                viewlisting.saveImage(req,res, function(imageName) {
+                    var stmt = 'UPDATE User SET UserPicture=? WHERE UserName=?';
+                    db.db.run(stmt, [imageName, user.username],function(err, results) {
+                        if (err) console.log(err);
+                    });
+                });
+            }
+            //Change username
+            if (newName != null && newName != "" && user.username != "admin" && newName != "admin") {
+                //Try to put user into the database, if unsuccessful show editSeller page with fields filled out.
+                var stmt = 'UPDATE User SET UserName=? WHERE UserName=?';
+                db.db.run(stmt, [newName, user.username],function(err, results) {
+                    if (err) console.log(err);
+                    else {
+                        user.username = newName;
+                        res.render('editSeller', {user:user, message:"Change of details successful!"} );
+                    }
+                });
+            } else {
+                res.render('editSeller', {user:user, message:"Change of details successful!"} );
+            }
+        } else {
+            //Username already exists, so request to change is unsuccessful.
+            res.render('editSeller', {user:user, message:"A user with that Name already exists. Please choose another."} );
+        }
+    });
+});
+
 /*seller sale history*/
 router.get('/saleHistory',function(req,res,next){
   var id = req.query.user;

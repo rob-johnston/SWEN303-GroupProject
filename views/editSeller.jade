@@ -9,8 +9,8 @@ append styles
 block body	
 	.container 
 		.header 
-			include ./partials/headerSeller.jade
-		include ./partials/navbarSeller.jade
+			include ./partials/header.jade
+		include ./partials/navbar.jade
 		
 		
 		//- .col-md-3
@@ -28,15 +28,22 @@ block body
 	.container
 		.center
 			#formCenter
-				form.centerAdd(action="editSeller",method="put",id="form1" enctype="multipart/form-data")
+				form.centerAdd(action="/editSeller",method="post",id="form1" enctype="multipart/form-data")
+					p #{message}
 					h4 Name
-					input(class="form-control",type="text", name="name", placeholder="New name",required)
+					input(class="form-control",type="text", name="name", placeholder="New name")
+
+					h4 Password
+					input(class="form-control",type="password", name="password", placeholder="")
 
 					h4 Contact
-					input(class="form-control",type="text", name="contact", placeholder="New contact",required)
+					input(class="form-control",type="text", name="contact", placeholder="New contact")
+
+					h4 Profile picture
+					input(type="file" value="Choose image file to Upload" name="fileUpload" form="form1" accept="image/*")
 					
 					h4 Description
-					input(class="form-control",type="text", name="description", placeholder="New description",required)
+					input(class="form-control",type="text", name="description", placeholder="New description")
 
 					br
-					input.btn.btn-success(type="submit" form="form1" value="Done")
+					input.btn.btn-success(type="submit" value="Done")

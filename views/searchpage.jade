@@ -77,6 +77,7 @@ block body
                                                 if(user.admin)
                                                     form(id = 'searchbox', name ='search', action='/search', method='GET')
                                                         input(type="hidden" name="target" value="#{listing.ListingKey}")
-                                                        +submit("delete")
-                                                        span.glyphicon.glyphicon-minus-sign.red(style="font-size:2em;float:right" type = 'submit' value = 'delete')
+                                                        submit("delete")
+                                                        button(type= 'submit')
+                                                            span.glyphicon.glyphicon-minus-sign.red(style="font-size:2em;float:right" type = 'submit' value = 'delete')
                                         

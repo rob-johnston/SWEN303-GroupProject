@@ -30,6 +30,22 @@
             a(href='search?searchbar=Beanies') Beanies
           li
             a(href='search?searchbar=Caps') Caps
+      if(user.loggedIn)
+        li 
+          a(href='/sellerListing?user=#{user.username}') My listings
+        li.dropdown
+          a.dropdown-toggle(href='#', data-toggle='dropdown')
+            | History 
+            span.caret
+          ul.dropdown-menu(role='menu')
+            li
+              a(href='#') Purchase
+            li
+              a(href='/saleHistory?user=#{user.username}') Sale
+        li
+          a(href='/sellerAdd') Add Listing
+    //right navbar
+    
     if(user.loggedIn)
       ul.nav.navbar-nav.navbar-right
         li
@@ -43,14 +59,10 @@
         
         if(user.loggedIn)        
           li
-            a(href='/seller') Sell
-          li.active
-            a(href='/logout') Logout        
+            a(href='/seller') Sell   
         else
           li
             a(href='#myModal', data-toggle='modal', data-target='#myModal') Sell
-          li.active
-            a(href='/login') Login 
       
           
 //myModal
