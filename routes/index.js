@@ -14,22 +14,8 @@ var upload = multer({dest: '../public/images'});
 //for renaming files
 var fs = require('fs');
 
-var item = {
-    name: "top hat",
-    imageString: "/images/1.jpg",
-    price: 16
-}
 
-var item1 = {
-    name: "top hat",
-    imageString: "/images/1.jpg",
-    price: 16
-}
-
-
-
-
-var cart = [item,item1];
+var cart = [];
 var user = {
     username:"", email:"", loggedIn: false, cart: cart, admin: false
 };
@@ -180,6 +166,24 @@ router.get('/saleHistory',function(req,res,next){
       res.render('saleHistory', {user:user, listings:data});
     }
   });
+});
+
+router.get('/buyHistory', function(req, res){
+    if (!user.loggedIn){
+        res.redirect('/');
+        return;
+    }
+
+    console.log(user.username);
+    db.getUserPurchases(user.username, function(err, data){
+        if (err){
+            res.sendStatus(500);
+            console.log(err);
+        } else {
+            console.log(data);
+            res.render('buyHistory', {user:user, listings:data});
+        }
+    });
 });
 
 /* GET sellerAdd page. */

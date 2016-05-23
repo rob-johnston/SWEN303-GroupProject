@@ -15,6 +15,7 @@
         getAllTypes:getAllTypes,
         addListingColour:addListingColour,
         getUserListings: getUserListings,
+        getUserPurchases: getUserPurchases,
         getDeletedUserListings: getDeletedUserListings,
         deleteListing: deleteListing,
         getListingColours: getListingColours
@@ -76,6 +77,12 @@
      */
     function getUserListings(user, cb){
         var stmt = 'SELECT * FROM VListing WHERE Seller = ? AND IsDeleted = 0';
+
+        db.all(stmt, [user], cb);
+    }
+
+    function getUserPurchases(user, cb){
+        var stmt = 'SELECT * FROM VSales WHERE Buyer = ?';
 
         db.all(stmt, [user], cb);
     }
