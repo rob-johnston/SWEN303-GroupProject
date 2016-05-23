@@ -52,9 +52,9 @@
                     }
                     else {
                     //otherwise assume credit card details are legit
-                        var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity, UserCreditCard, UserExpiry)' +
+                        var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity, UserCreditCard)' +
                         'VALUES (?, ?, ?, ?, ?, ?, ?)';
-                         db.run(stmt, [req.username, req.password, imageName, req.address, req.city, req.cc, req.exp]);
+                         db.run(stmt, [req.username, req.password, imageName, req.address, req.city, req.cc]);
                 }
             }
             else {

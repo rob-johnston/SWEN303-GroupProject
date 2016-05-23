@@ -338,13 +338,14 @@ router.get('/logout', function(req, res){
 
     if(user.loggedIn==false){
         backURL=req.header('Referer') || '/login';
-        res.redirect(backURL);
+        res.redirect('/login');
     }
     else {
+        //log the user out
         user.loggedIn=false;
         user.username="";
 
-        var urlparts = url.parse(req.url,true);
+        //redirect user to login page
         res.redirect('/login');
 
     }
@@ -352,20 +353,41 @@ router.get('/logout', function(req, res){
 });
 
 router.get('/register', function(req,res){
-    res.render('register',{user:user});
+    var previous = {
+        username: "",
+        address: "",
+        city: "",
+        postcode: ""
+    };
+    res.render('register',{user:user, previous : previous });
 })
 
 router.post('/register', upload.single('fileUpload'), function(req,res){
     viewlisting.saveImage(req,res,function(imageName) {
         login.register(req.body,imageName,function(result){
             if(result){
-                res.render('register', {user: user, message:'successfully registered!'});
+
+                var previous = {
+                    username: "",
+                    address: "",
+                    city: "",
+                    postcode: ""
+                };
+                res.render('register', {user: user, message:'successfully registered!', previous: previous});
 
             } else {
+                var previous = {
+                    username: req.body.username,
+                    address: req.body.address,
+                    city: req.body.city,
+                    postcode: req.body.postcode
+                };
+
 
                 res.render('register', {
                     user: user,
-                    message: 'error while registering, invalid information or username already exists'
+                    message: 'error while registering, invalid information or username already exists',
+                    previous : previous
                 });
             }
         });

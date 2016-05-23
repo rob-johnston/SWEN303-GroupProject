@@ -19,30 +19,62 @@ block body
         form.well(id='form-login', method='post' enctype="multipart/form-data")
 
             h2 Welcome to Hats!
-            h5 Fill in the form to register a new account
+            h5 Fill in the form to register a new account. Fields marked with * are required
             .form-group
-                label Username
-                input.form-control(type='text', id='user-rg', name='username')
+                label Username *
+                input.form-control(type='text', id='user-rg', name='username', value = previous.username)
             .form-group
-                label Password
+                label Password *
                 input.form-control(type='password', id='pass-rg', name='password')
             .form-group
                 label Profile picture
                 input(type="file" value="Choose image file to Upload" name="fileUpload" accept="image/*")
             .form-group
-                label Address
-                input.form-control(type='text', id='address-tf', name='address')
-                label City
-                input.form-control(type='text', id='city-tf', name='city')
+                label Address *
+                input.form-control(type='text', id='address-tf', name='address', value = previous.address)
+                label City *
+                input.form-control(type='text', id='city-tf', name='city', value = previous.city)
                 label PostCode
-                input.form-control(type='number', id='postcode-tf', name='postcode')
+                input.form-control(type='number', id='postcode-tf', name='postcode', value = previous.postcode)
 
-            h3 Register your credit card for extra fast purchasing of your favourite hats!
+            h3 Optional: Register your credit card for extra fast purchasing of your favourite hats!
             .form-group
                 label Credit Card number
                 input.form-control(type='number', id='cc-tf', name='cc')
-                label Expiry
-                input.form-control(type='number', id='exp-tf', name='exp')
+
+                .row
+                    .col-md-4
+                        label Month
+                        select.form-control#month(name='month', onchange='', size='1')
+                            option(value='01') January
+                            option(value='02') February
+                            option(value='03') March
+                            option(value='04') April
+                            option(value='05') May
+                            option(value='06') June
+                            option(value='07') July
+                            option(value='08') August
+                            option(value='09') September
+                            option(value='10') October
+                            option(value='11') November
+                            option(value='12') December
+
+                    .col-md-4
+                        label Year
+                        select.form-control#month(name='month', onchange='', size='1')
+                            option(value='16') 2016
+                            option(value='17') 2017
+                            option(value='18') 2018
+                            option(value='19') 2019
+                            option(value='20') 2020
+                            option(value='21') 2021
+                            option(value='22') 2022
+                            option(value='23') 2023
+                            option(value='24') 2024
+                            option(value='25') 2025
+                            option(value='26') 2026
+                            option(value='27') 2027
+
 
             .controls
                 input.btn.btn-primary(type='submit' value='Register')
