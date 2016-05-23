@@ -14,7 +14,7 @@ block body
 		include ./partials/navbar.jade
 	.container
 		.jumbotron
-				if(user.loggedIn)
+				if(!user.loggedIn)
 					h1 Welcome to Hats!
 					p.lead
 						|Don't have an account? No worries! Sign up for free today and get a FREE $5 voucher!
