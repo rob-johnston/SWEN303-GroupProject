@@ -51,18 +51,13 @@
         li
           a(href='/') Home
         li
-          a(href='/seller?user=#{user.username}') Sell
+          a(href='/seller?user=#{user.username}') Profile
     else  
       ul.nav.navbar-nav.navbar-right
         li
-          a(href='/') Home
-        
-        if(user.loggedIn)        
-          li
-            a(href='/seller') Sell   
-        else
-          li
-            a(href='#myModal', data-toggle='modal', data-target='#myModal') Sell
+          a(href='/') Home        
+        li
+          a(href='#myModal', data-toggle='modal', data-target='#myModal') Profile
       
           
 //myModal

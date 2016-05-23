@@ -28,12 +28,12 @@ block body
 						input(class="form-control",type="text", name="streetadd", placeholder="E.g. 86 Polland Street",required)
 					p City
 					if(userData.UserCity!=null)
-						input(class="form-control",type="text", name="City", value="UserCity",required)
+						input(class="form-control",type="text", name="City", value=userData.UserCity,required)
 					else 
 						input(class="form-control",type="text", name="City", placeholder="E.g. Wellington",required)
 					p Postcode
 					if(userData.UserPostcode!=null)
-						input(class="form-control",type="text", name="postcode", value=userData.UserPostcode,required)
+						input(class="form-control",type="text", name="postcode", value=userData.UserPostode,required)
 					else
 						input(class="form-control",type="text", name="postcode", placeholder="E.g. 5986",required)
 					h3 Payment
