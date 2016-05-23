@@ -25,7 +25,15 @@ block body
 				p #{seller.UserDesc}
 
 	.container
-		.padding
+		//- 	#span(style="font-size:2em;")
+		//- 		br
+		//- 		span.glyphicon.text-danger.glyphicon-heart
+		//- 		span.glyphicon.text-danger.glyphicon-heart
+		//- 		span.glyphicon.text-danger.glyphicon-heart
+		//- 		span.glyphicon.text-danger.glyphicon-heart
+		//- 		span.glyphicon.text-danger.glyphicon-heart-empty
+		//- 		br
+		if(!reviews.length==0)
 			#span(style="font-size:2em;")
 				br
 				span.glyphicon.text-danger.glyphicon-heart
@@ -37,24 +45,23 @@ block body
 			h2(style='font-style:bold') Reviews
 			br
 			br
-
-			each review in reviews
-				div(style="width:100%; margin-bottom: 10px; overflow: hidden")
-					.col-md-2
-						img(src='/images/#{review.ReviewUserPicture}' style="width: 100%; max-width: 200px")
+		each review in reviews
+			div(style="width:100%; margin-bottom: 10px; overflow: hidden")
+				.col-md-2
+					img(src='/images/#{review.ReviewUserPicture}' style="width: 100%; max-width: 200px")
+					br
+				.col-md-10
+					#span(style="font-size:1.2em;")
 						br
-					.col-md-10
-						#span(style="font-size:1.2em;")
-							br
-							span.glyphicon.text-danger.glyphicon-heart
-							span.glyphicon.text-danger.glyphicon-heart
-							span.glyphicon.text-danger.glyphicon-heart
-							span.glyphicon.text-danger.glyphicon-heart
-							span.glyphicon.text-danger.glyphicon-heart-empty
-							br
-					
-						h4 #{review.ReviewUserName}
-						p
-							|#{review.ReviewDesc}
+						span.glyphicon.text-danger.glyphicon-heart
+						span.glyphicon.text-danger.glyphicon-heart
+						span.glyphicon.text-danger.glyphicon-heart
+						span.glyphicon.text-danger.glyphicon-heart
+						span.glyphicon.text-danger.glyphicon-heart-empty
+						br
+				
+					h4 #{review.ReviewUserName}
+					p
+						|#{review.ReviewDesc}
 				
 				
