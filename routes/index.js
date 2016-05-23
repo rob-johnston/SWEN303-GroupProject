@@ -486,7 +486,31 @@ router.post('/register', upload.single('fileUpload'), function(req,res){
                     city: "",
                     postcode: ""
                 };
-                res.render('register', {user: user, message:'successfully registered!', previous: previous});
+
+                //seeing as they just registered this should work, right?
+                login.login(req.body.username,req.body.password, function(result, userObject) {
+                    var validLogin = (result == true);
+                    var errorAlert;
+
+                    if (validLogin) {
+                        errorAlert = false;
+                    }
+                    else {
+                        errorAlert = true;
+                    }
+                    //if  login is valid then sign user in
+                        
+                        user.UserKey = userObject.UserKey;
+                        user.username = userObject.UserName;
+                        user.loggedIn = true;
+                        user.admin = userObject.UserAdmin;
+                        //render success message
+
+                        res.redirect('/seller?user=' + user.username);
+                });
+
+                //res.redirect('/seller?user='+ user.username);
+               // res.render('register', {user: user, message:'successfully registered! And you are now logged in', previous: previous});
 
             } else {
                 //failed so reuse form data, so user doesnt need to retype everything
@@ -496,7 +520,6 @@ router.post('/register', upload.single('fileUpload'), function(req,res){
                     city: req.body.city,
                     postcode: req.body.postcode
                 };
-
 
                 res.render('register', {
                     user: user,

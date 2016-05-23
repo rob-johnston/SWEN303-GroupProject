@@ -33,6 +33,8 @@ var results = [];
             }
             //make it even dirtier
             stmt += "AND ListingPrice < " + searchparameters.query.maxprice +" AND ListingPrice > " + searchparameters.query.minprice;
+
+
         }
 
             db.all(stmt, function (err, res) {
