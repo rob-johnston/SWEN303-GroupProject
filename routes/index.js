@@ -335,6 +335,7 @@ router.get('/login', function(req, res){
 });
 
 router.get('/logout', function(req, res){
+
     if(user.loggedIn==false){
         backURL=req.header('Referer') || '/login';
         res.redirect(backURL);
@@ -342,9 +343,10 @@ router.get('/logout', function(req, res){
     else {
         user.loggedIn=false;
         user.username="";
-        backURL=req.header('Referer') || '/login';
-        // do your thang
-        res.render('login', {user: user, message: 'Thanks for shopping with us!', loggedIn: user.loggedIn});
+
+        var urlparts = url.parse(req.url,true);
+        res.redirect('/login');
+
     }
 
 });
