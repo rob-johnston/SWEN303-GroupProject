@@ -1,34 +1,35 @@
 extends ../node_modules/jade-bootstrap/_bootstrap
 append(rel="stylesheet",href="stylesheets/style.css")
 head
-	title=title
-	//meta(name="viewport" content="width=device-width, initial-scale=1")
+    title=title
+    //meta(name="viewport" content="width=device-width, initial-scale=1")
 append styles
-	link(rel="stylesheet", href="/stylesheets/jumbotron-narrow.css")
-	link(rel="stylesheet" href="/stylesheets/style.css")
+    link(rel="stylesheet", href="/stylesheets/jumbotron-narrow.css")
+    link(rel="stylesheet" href="/stylesheets/style.css")
 block body	
-	.container 
-		.header 
-			include ./partials/headerSeller.jade
-		include ./partials/navbarSeller.jade
-		//- a(href='shop.html')
-		//- 	p(style='float:right') Add a listing
-		//- 	span.glyphicon.glyphicon-plus-sign(style="font-size:3em;float:right")
-		#padding
-			h2(style="padding-left: 10px;") Purchase History
-			br
-			br
+    .container
+        .header
+            include ./partials/headerSeller.jade
+        include ./partials/navbarSeller.jade
+        //- a(href='shop.html')
+        //- 	p(style='float:right') Add a listing
+        //- 	span.glyphicon.glyphicon-plus-sign(style="font-size:3em;float:right")
+        #padding
+            h2(style="padding-left: 10px;") Purchase History
+            br
+            br
 
-			each listing in listings
-				+panel-default(listing.ListingTitle + " -- " + listing.ColourName)
-					.col-md-2
-						img.listing(src="/images/" + listing.ListingImage)
-						br
-					.col-md-8
-						h4 Price
-						p $ #{listing.ListingPrice}
-						h4 Description
-						p
-							| #{listing.ListingDesc}
-				
-				
+            each listing in listings
+                +panel-default(listing.ListingTitle + " -- " + listing.ColourName)
+                    .col-md-2
+                        img.listing(src="/images/" + listing.ListingImage)
+                        br
+                    .col-md-8
+                        h4 Price
+                        p $ #{listing.ListingPrice}
+                        h4 Description
+                        p
+                            | #{listing.ListingDesc}
+                    .col-md-2
+                        a(href="addReview?SaleKey=#{listing.SaleKey}")
+                            button.btn.btn-default Add Review

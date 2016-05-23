@@ -11,7 +11,7 @@ block body
 		.header 
 			include ./partials/header.jade
 		include ./partials/navbar.jade
-		form(action="/add",method="post",id="form1" enctype="multipart/form-data")
+		form(action="/addReview",method="post",id="form1")
 			h1 Review
 			.row
 				.col-md-4
@@ -27,8 +27,9 @@ block body
 			
 			h4 Description
 			p Comments on the product received
-			textarea(class="form-control",rows="10", name="ListingDesc", form="form1" placeholder="description")
+			textarea(class="form-control",rows="10", name="ReviewDesc", form="form1" placeholder="description")
 			
 			br
 			br
 			input.btn.btn-success(type="submit" form="form1" value="Submit")
+			input(name="SaleKey" value="#{saleKey}" form="form1" style="visibility: hidden")

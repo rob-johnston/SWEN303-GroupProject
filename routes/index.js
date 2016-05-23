@@ -46,7 +46,28 @@ router.get('/listing', function(req, res, next) {
 
 /*Add Review*/
 router.get('/addReview',function(req,res,next){
-  res.render('addReview',{user:user});
+    var sale = req.query.SaleKey;
+
+    if (!sale){
+        res.redirect("/");
+        return;
+    }
+
+    res.render('addReview',{user:user, saleKey: sale});
+});
+
+router.post('/addReview', function(req, res){
+    var rating = req.body.rating;
+    var review = req.body.ReviewDesc;
+    var sale = req.body.SaleKey;
+
+    db.addReview(sale, review, rating, function(err){
+        if (err){
+            console.log(err);
+        }
+
+        res.redirect("/");
+    })
 });
 
 /*cart*/
