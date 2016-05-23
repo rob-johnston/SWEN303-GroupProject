@@ -318,6 +318,7 @@ router.post("/sellerListing", function(req, res, next){
 
   if (seller != user.username && !user.admin){
     res.sendStatus(401); //Check the user is allowed to delete this listing
+      return;
   }
 
   //delete the listing, and redirect to the seller's listing page
