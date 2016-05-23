@@ -38,7 +38,7 @@ block body
                     form(action="addToCart",method="put",id="form1" enctype="multipart/form-data")
                         select(class="form-control",name="ColourKey")
                             each colour in colours
-                                option(value='#{colour.ColourKey}') #{colour.ColourName}
+                                option(disabled=colour.Quantity==0 value='#{colour.ColourKey}') #{colour.ColourName} #{colour.Quantity==0?"(Out of Stock)":""}
                         br
                         //p More relevant info here...
                         //Passing info to cart

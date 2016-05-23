@@ -9,8 +9,8 @@ append styles
 block body	
 	.container 
 		.header 
-			include ./partials/headerSeller.jade
-		include ./partials/navbarSeller.jade
+			include ./partials/header.jade
+		include ./partials/navbar.jade
 		//- a(href='shop.html')
 		//- 	p(style='float:right') Add a listing
 		//- 	span.glyphicon.glyphicon-plus-sign(style="font-size:3em;float:right")
@@ -22,25 +22,26 @@ block body
 			br
 
 			each listing in listings
-				+panel-default(listing.ListingTitle)
-					.col-md-2
-						img.listing(src="/images/"+listing.ListingImage)
-						br
-					.col-md-8
-						h4 Price
-						p $ #{listing.ListingPrice}
-						h4 Description
-						p
-							|#{listing.ListingDesc}
+				a(href="/listing?ListingKey=#{listing.ListingKey}")
+					+panel-default(listing.ListingTitle)
+						.col-md-2
+							img.listing(src="/images/"+listing.ListingImage)
+							br
+						.col-md-8
+							h4 Price
+							p $ #{listing.ListingPrice}
+							h4 Description
+							p
+								|#{listing.ListingDesc}
 					
-					//we need this to delete the listing.
-					.col-md-2
-						form(id='delete', method='post' enctype='application/json')
-							button(type="submit" style="font-size:2em;float:right; background: none").btn.span.glyphicon.glyphicon-minus-sign.red
-							input(id="key" name="key" value="#{listing.ListingKey}" style="visibility:hidden")
-							input(id="seller" name="seller" value="#{listing.Seller}" style="visibility:hidden")
-						//a(href='/sellerAdd')
-						//	span.glyphicon.glyphicon-minus-sign.red(style="font-size:2em;float:right")
+						//we need this to delete the listing.
+						.col-md-2
+							form(id='delete', method='post' enctype='application/json')
+								button(type="submit" style="font-size:2em;float:right; background: none").btn.span.glyphicon.glyphicon-minus-sign.red
+								input(id="key" name="key" value="#{listing.ListingKey}" style="visibility:hidden")
+								input(id="seller" name="seller" value="#{listing.Seller}" style="visibility:hidden")
+							//a(href='/sellerAdd')
+							//	span.glyphicon.glyphicon-minus-sign.red(style="font-size:2em;float:right")
 
 				//- .col-md-2
 
@@ -49,5 +50,3 @@ block body
 				//-	["White","10"],
 				//-	["Blue","20"]
 				//-	],"table-striped table-bordered")
-
-

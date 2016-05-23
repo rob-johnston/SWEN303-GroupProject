@@ -46,15 +46,15 @@
                     //if credit card fields are left blank
                    else if(req.cc==undefined || req.exp == undefined)   {
 
-                        var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity)' +
-                        'VALUES (?, ?, ?, ?, ?)';
-                         db.run(stmt, [req.username, req.password, imageName, req.address, req.city]);
+                        var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity, UserName, UserContact)' +
+                        'VALUES (?, ?, ?, ?, ?, ?, ?)';
+                         db.run(stmt, [req.username, req.password, imageName, req.address, req.city, req.name, req.email]);
                     }
                     else {
                     //otherwise assume credit card details are legit
-                        var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity, UserCreditCard)' +
+                        var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity, UserCreditCard, UserName, UserContact)' +
                         'VALUES (?, ?, ?, ?, ?, ?, ?)';
-                         db.run(stmt, [req.username, req.password, imageName, req.address, req.city, req.cc]);
+                         db.run(stmt, [req.username, req.password, imageName, req.address, req.city, req.cc, req.name, req.email]);
                 }
             }
             else {

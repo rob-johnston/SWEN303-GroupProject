@@ -15,12 +15,12 @@ block body
 		//- 	p(style='float:right') Add a listing
 		//- 	span.glyphicon.glyphicon-plus-sign(style="font-size:3em;float:right")
 		#padding
-			h2(style="padding-left: 10px;") Sale History
+			h2(style="padding-left: 10px;") Purchase History
 			br
 			br
 
 			each listing in listings
-				+panel-default(listing.ListingTitle)
+				+panel-default(listing.ListingTitle + " -- " + listing.ColourName)
 					.col-md-2
 						img.listing(src="/images/" + listing.ListingImage)
 						br
@@ -30,6 +30,5 @@ block body
 						h4 Description
 						p
 							| #{listing.ListingDesc}
-		
 				
 				

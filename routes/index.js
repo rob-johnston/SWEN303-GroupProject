@@ -14,24 +14,10 @@ var upload = multer({dest: '../public/images'});
 //for renaming files
 var fs = require('fs');
 
-var item = {
-    name: "top hat",
-    imageString: "/images/1.jpg",
-    price: 16
-}
 
-var item1 = {
-    name: "top hat",
-    imageString: "/images/1.jpg",
-    price: 16
-}
-
-
-
-
-var cart = [item,item1];
+var cart = [];
 var user = {
-    username:"", email:"", loggedIn: false, cart: cart, admin: false
+    username:"", email:"", loggedIn: false, cart: cart, admin: false, UserKey: 0
 };
 
 
@@ -56,6 +42,11 @@ router.get('/listing', function(req, res, next) {
         //render listing to page
         res.render('listing', { title: "listing",user:user, results: resultsArray[0], colours: resultsArray[1]});
     });
+});
+
+/*Add Review*/
+router.get('/addReview',function(req,res,next){
+  res.render('addReview',{user:user});
 });
 
 /*cart*/
@@ -88,6 +79,19 @@ router.get('/checkout',function(req,res,next){
 
 /**confirmation page**/
 router.get('/confirmation',function(req,res,next){
+    //Create sales items for each item in the cart
+    for (var i = 0; i < user.cart.length; i++){
+        var tmp = function(item){
+            db.addSale(item.ListingKey, item.ColourKey, user.UserKey, function(err){
+                if (!err){
+                    db.checkListing(item.ListingKey); //check the listing actually has entries left
+                }
+            })
+        };
+
+        tmp(user.cart[i]);
+    }
+
   user.cart=[];
   res.redirect('/checkedOut');
 });
@@ -243,6 +247,24 @@ router.get('/saleHistory',function(req,res,next){
   });
 });
 
+router.get('/buyHistory', function(req, res){
+    if (!user.loggedIn){
+        res.redirect('/');
+        return;
+    }
+
+    console.log(user.username);
+    db.getUserPurchases(user.username, function(err, data){
+        if (err){
+            res.sendStatus(500);
+            console.log(err);
+        } else {
+            console.log(data);
+            res.render('buyHistory', {user:user, listings:data});
+        }
+    });
+});
+
 /* GET sellerAdd page. */
 router.get('/sellerAdd', function(req, res, next) {
     //Get the possible colours from the database
@@ -377,16 +399,14 @@ router.post('/login', function(req, res){
         //if  login is valid then sign user in
         if(validLogin) {
             //console.log(userObject);
+            user.UserKey = userObject.UserKey;
             user.username = req.body.user;
             user.loggedIn = true;
             user.admin = userObject.UserAdmin;
             //render success message
-            res.render('login', {user: user, errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
 
-            /*TODO -- here we are just rendering a shitty success message, would be cool if we could redirect to the seller home page or whatever*/
+           res.redirect('/seller?user='+ user.username);
 
-           //backURL=req.header('Referer') || '/seller';
-           //res.render(backURL, {user: user, errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
         }
         else {
             //failed login so print error
@@ -419,6 +439,7 @@ router.get('/logout', function(req, res){
 });
 
 router.get('/register', function(req,res){
+    //blank data
     var previous = {
         username: "",
         address: "",
@@ -432,7 +453,7 @@ router.post('/register', upload.single('fileUpload'), function(req,res){
     viewlisting.saveImage(req,res,function(imageName) {
         login.register(req.body,imageName,function(result){
             if(result){
-
+                //empty results
                 var previous = {
                     username: "",
                     address: "",
@@ -442,6 +463,7 @@ router.post('/register', upload.single('fileUpload'), function(req,res){
                 res.render('register', {user: user, message:'successfully registered!', previous: previous});
 
             } else {
+                //failed so reuse form data, so user doesnt need to retype everything
                 var previous = {
                     username: req.body.username,
                     address: req.body.address,

@@ -12,12 +12,15 @@
         getListing: getListing,
         getAllColours: getAllColours,
         addListing:addListing,
+        addSale: addSale,
         getAllTypes:getAllTypes,
         addListingColour:addListingColour,
         getUserListings: getUserListings,
+        getUserPurchases: getUserPurchases,
         getDeletedUserListings: getDeletedUserListings,
         deleteListing: deleteListing,
-        getListingColours: getListingColours
+        getListingColours: getListingColours,
+        checkListing: checkListing
     };
 
     //db.each('SELECT * FROM Colour', function(err, res){
@@ -80,6 +83,12 @@
         db.all(stmt, [user], cb);
     }
 
+    function getUserPurchases(user, cb){
+        var stmt = 'SELECT * FROM VSales WHERE Buyer = ?';
+
+        db.all(stmt, [user], cb);
+    }
+
     function getDeletedUserListings(user, cb){
         //Order by the put newly created listings first
         var stmt = 'SELECT * FROM VListing WHERE Seller = ? AND IsDeleted = 1 ORDER BY ListingKey DESC';
@@ -128,6 +137,21 @@
         db.run(stmt, [list_key, col_key], cb)
     }
 
+    function addSale(list_key, col_key, buyer_key, cb){
+        //Attempt to decrement the quantity
+        var decr = 'UPDATE ListingColour SET Quantity = Quantity - 1 WHERE ListingKey = ? AND ColourKey = ?';
+        db.run(decr, [list_key, col_key], function(err){
+            if (err){
+                cb(err, null);
+            } else {
+                //Create a sales record
+                var stmt = 'INSERT INTO Sales (ListingKey, ColourKey, BuyerKey)' +
+                    'VALUES (?, ?, ?)';
+                db.run(stmt, [list_key, col_key, buyer_key], cb);
+            }
+        });
+    }
+
     /**
      * Marks a listing as deleted
      * @param key Listing key
@@ -137,5 +161,22 @@
         var stmt = 'UPDATE Listing SET isDeleted = 1 WHERE ListingKey = ?';
 
         db.run(stmt, [key], cb);
+    }
+
+    /**
+     * Checks to see if a listing has any active quantities, and if not, deletes it
+     * @param key
+     * @param cb
+     */
+    function checkListing(key){
+        var stmt = 'SELECT * FROM ListingColour WHERE ListingKey = ? AND Quantity > 0';
+
+        db.all(stmt, [key], function(err, data){
+            if (err){
+                console.log(err);
+            } else if (data.length == 0){
+                deleteListing(key);
+            }
+        })
     }
 })();
