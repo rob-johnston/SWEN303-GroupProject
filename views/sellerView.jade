@@ -40,9 +40,9 @@ block body
 
 			each review in reviews
 				.col-md-2
-					img(src='/images/' + review.ReviewUserPicture)
+					img(src='/images/#{review.ReviewUserPicture}' style="width:100%")
 					br
-				.col-md-8
+				.col-md-10
 					#span(style="font-size:1.2em;")
 						br
 						span.glyphicon.text-danger.glyphicon-heart
@@ -55,6 +55,6 @@ block body
 					h4 #{review.ReviewUserName}
 					p
 						|#{review.ReviewDesc}
-		
+					br
 				
 				
