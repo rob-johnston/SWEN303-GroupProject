@@ -9,8 +9,8 @@ append styles
 block body	
 	.container 
 		.header 
-			if(user.loggedIn)
-				a.btn.btn-default.btn-lg.right(href="/login",role="button") 登录
+			if(!user.loggedIn)
+				a.btn.btn-primary(href="/login",role="button") 登录
 			else
 				#right(style='float:right;')
 					p= "欢迎 "
@@ -36,7 +36,7 @@ block body
 						span.glyphicon.glyphicon-shopping-cart.black(style="font-size:2.5em;float:right")
 				br
 				br
-			
+				br
 			
 			.navbar.navbar-default
 				.navbar-header

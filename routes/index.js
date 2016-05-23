@@ -289,24 +289,28 @@ router.get('/buyHistory', function(req, res){
 /* GET sellerAdd page. */
 router.get('/sellerAdd', function(req, res, next) {
     //Get the possible colours from the database
-    var colours = [];
-    var types = [];
-    db.getAllColours(function (err, dbColours) {
-        if (err) {
-            console.log(err);
-        } else {
-            colours = dbColours;
-            //Probably not ideal to call from inside the other function...
-            db.getAllTypes(function (err, dbTypes) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    types = dbTypes;
-                    res.render('sellerAdd', {title: 'Add a listing', user:user, colours: colours, types: types });
-                }
-            });
-        }
-    });
+    if (user.username=="") {
+        res.render('login', {user: user, loggedIn: user.loggedIn, username : user.username});
+    } else {
+        var colours = [];
+        var types = [];
+        db.getAllColours(function (err, dbColours) {
+            if (err) {
+                console.log(err);
+            } else {
+                colours = dbColours;
+                //Probably not ideal to call from inside the other function...
+                db.getAllTypes(function (err, dbTypes) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        types = dbTypes;
+                        res.render('sellerAdd', {title: 'Add a listing', user:user, colours: colours, types: types });
+                    }
+                });
+            }
+        });
+    }
 });
 
 //POST to delete a listing
