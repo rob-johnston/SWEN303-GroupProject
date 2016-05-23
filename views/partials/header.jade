@@ -6,7 +6,9 @@ if(user.loggedIn)
 		+dropdown("Language",[
 			{text:"中文",url:"/c"},
 			{text:"English",url:"/"}])
-else		
+	a.btn.btn-primary(href="/logout" type='button') Logout
+else
+	a.btn.btn-primary(href="/login" type='button') Login		
 	#language(style="float:right")
 		+dropdown("Language",[
 		 	{text:"中文",url:"/c"},
