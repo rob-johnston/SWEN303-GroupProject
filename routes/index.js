@@ -17,7 +17,7 @@ var fs = require('fs');
 
 var cart = [];
 var user = {
-    username:"", email:"", loggedIn: false, cart: cart, admin: false
+    username:"", email:"", loggedIn: false, cart: cart, admin: false, UserKey: 0
 };
 
 
@@ -79,6 +79,12 @@ router.get('/checkout',function(req,res,next){
 
 /**confirmation page**/
 router.get('/confirmation',function(req,res,next){
+    //Create sales items for each item in the cart
+    for (var i = 0; i < user.cart.length; i++){
+        var item = user.cart[i];
+        db.addSale(item.ListingKey, item.ColourKey, user.UserKey)
+    }
+
   user.cart=[];
   res.redirect('/checkedOut');
 });
@@ -320,6 +326,7 @@ router.post('/login', function(req, res){
         //if  login is valid then sign user in
         if(validLogin) {
             //console.log(userObject);
+            user.UserKey = userObject.UserKey;
             user.username = req.body.user;
             user.loggedIn = true;
             user.admin = userObject.UserAdmin;

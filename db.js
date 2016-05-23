@@ -12,6 +12,7 @@
         getListing: getListing,
         getAllColours: getAllColours,
         addListing:addListing,
+        addSale: addSale,
         getAllTypes:getAllTypes,
         addListingColour:addListingColour,
         getUserListings: getUserListings,
@@ -133,6 +134,21 @@
             'VALUES (?, ?)';
 
         db.run(stmt, [list_key, col_key], cb)
+    }
+
+    function addSale(list_key, col_key, buyer_key, cb){
+        //Attempt to decrement the quantity
+        var decr = 'UPDATE ListingColour SET Quantity = Quantity - 1 WHERE ListingKey = ? AND ColourKey = ?';
+        db.run(decr, [list_key, col_key], function(err){
+            if (err){
+                cb(err, null);
+            } else {
+                //Create a sales record
+                var stmt = 'INSERT INTO Sales (ListingKey, ColourKey, BuyerKey)' +
+                    'VALUES (?, ?, ?)';
+                db.run(stmt, [list_key, col_key, buyer_key], cb);
+            }
+        });
     }
 
     /**
