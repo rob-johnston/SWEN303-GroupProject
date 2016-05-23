@@ -15,10 +15,10 @@ block body
 				#right(style='float:right;')
 					p= "欢迎 "
 					b=user.username
-				#language(style="float:right; padding-right:20px" )
-					+dropdown("Language",[
-			  			{text:"中文",url:"/c"},
-			  			{text:"English",url:"/"}])
+			#language(style="float:right; padding-right:20px" )
+				+dropdown("语言",[
+		  			{text:"中文",url:"/c"},
+		  			{text:"English",url:"/"}])
 			img.center(src='images/titleC.jpg', alt='logo',style='max-width:100%; height:auto;width:auto')
 			
 			.center
