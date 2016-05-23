@@ -44,16 +44,16 @@
                   }
                 //no previous results so submit it to database
                     //if credit card fields are left blank
-                   else if(req.cc==undefined || req.exp == undefined)   {
+                   else if(req.cc==undefined)   {
 
-                        var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity, UserName, UserContact, UserPostcode)' +
+                        var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity, UserDisplayName, UserContact, UserPostcode)' +
                         'VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
                          db.run(stmt, [req.username, req.password, imageName, req.address, req.city, req.name, req.email, req.postcode]);
                     }
                     else {
                     //otherwise assume credit card details are legit
-                        var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity, UserCreditCard, UserName, UserContact, UserPostcode)' +
-                        'VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
+                        var stmt = 'INSERT INTO User (UserName, UserPassword, UserPicture, UserAddress, UserCity, UserCreditCard, UserDisplayName, UserContact, UserPostcode)' +
+                        'VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)';
                          db.run(stmt, [req.username, req.password, imageName, req.address, req.city, req.cc, req.name, req.email, req.postcode]);
                 }
             }

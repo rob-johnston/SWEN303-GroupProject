@@ -358,13 +358,13 @@ router.get('/search', function(req, res, next) {
 
     //get the search params from url
     var urlparts = url.parse(req.url, true);
-    console.log(urlparts);
+
 
 
     //if we detect a reference to a listing key we need to delete it
     if(urlparts.query.target!=undefined){
         backURL = req.header('Referer') || '/';
-        console.log(backURL);
+
         var urlparts = url.parse(req.url, true);
         //do the deleting
         db.deleteListing(parseInt(urlparts.query.target), function (err, ret){
@@ -499,7 +499,7 @@ router.post('/register', upload.single('fileUpload'), function(req,res){
                         errorAlert = true;
                     }
                     //if  login is valid then sign user in
-                        
+
                         user.UserKey = userObject.UserKey;
                         user.username = userObject.UserName;
                         user.loggedIn = true;
@@ -509,8 +509,7 @@ router.post('/register', upload.single('fileUpload'), function(req,res){
                         res.redirect('/seller?user=' + user.username);
                 });
 
-                //res.redirect('/seller?user='+ user.username);
-               // res.render('register', {user: user, message:'successfully registered! And you are now logged in', previous: previous});
+
 
             } else {
                 //failed so reuse form data, so user doesnt need to retype everything
