@@ -81,8 +81,15 @@ router.get('/checkout',function(req,res,next){
 router.get('/confirmation',function(req,res,next){
     //Create sales items for each item in the cart
     for (var i = 0; i < user.cart.length; i++){
-        var item = user.cart[i];
-        db.addSale(item.ListingKey, item.ColourKey, user.UserKey)
+        var tmp = function(item){
+            db.addSale(item.ListingKey, item.ColourKey, user.UserKey, function(err){
+                if (!err){
+                    db.checkListing(item.ListingKey); //check the listing actually has entries left
+                }
+            })
+        };
+
+        tmp(user.cart[i]);
     }
 
   user.cart=[];

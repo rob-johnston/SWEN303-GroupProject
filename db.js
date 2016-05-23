@@ -19,7 +19,8 @@
         getUserPurchases: getUserPurchases,
         getDeletedUserListings: getDeletedUserListings,
         deleteListing: deleteListing,
-        getListingColours: getListingColours
+        getListingColours: getListingColours,
+        checkListing: checkListing
     };
 
     //db.each('SELECT * FROM Colour', function(err, res){
@@ -160,5 +161,22 @@
         var stmt = 'UPDATE Listing SET isDeleted = 1 WHERE ListingKey = ?';
 
         db.run(stmt, [key], cb);
+    }
+
+    /**
+     * Checks to see if a listing has any active quantities, and if not, deletes it
+     * @param key
+     * @param cb
+     */
+    function checkListing(key){
+        var stmt = 'SELECT * FROM ListingColour WHERE ListingKey = ? AND Quantity > 0';
+
+        db.all(stmt, [key], function(err, data){
+            if (err){
+                console.log(err);
+            } else if (data.length == 0){
+                deleteListing(key);
+            }
+        })
     }
 })();
