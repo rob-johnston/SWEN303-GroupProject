@@ -30,11 +30,17 @@ block body
                     br
                     br
                     p Price: $#{results.ListingPrice}
+                    br
+                    p Type: #{results.Type}
+                    br
+                    p Seller:
+                        a.btn-link(href="sellerListing?user=" + '#{results.Seller}')  #{results.Seller}
                     form(action="addToCart",method="put",id="form1" enctype="multipart/form-data")
                         select(class="form-control",name="ColourKey")
                             each colour in colours
                                 option(value='#{colour.ColourKey}') #{colour.ColourName}
-                        p More relevant info here...
+                        br
+                        //p More relevant info here...
                         //Passing info to cart
                         input(type="hidden" name="ListingKey" value='#{results.ListingKey}')
                         input(type="hidden" name="ListingPrice" value='#{results.ListingPrice}')
