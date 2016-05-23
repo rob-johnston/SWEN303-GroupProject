@@ -14,7 +14,7 @@ block body
 		
 		
 		.col-md-3
-				img(src='/images/' + seller.UserPicture)
+				img(src='/images/' + seller.UserPicture style="width: 100%; max-width: 200px")
 		.col-md-4
 				h2 #{seller.UserDisplayName}
 				a(href='/editProfile')
@@ -39,22 +39,22 @@ block body
 			br
 
 			each review in reviews
-				.col-md-2
-					img(src='/images/#{review.ReviewUserPicture}' style="width:100%")
-					br
-				.col-md-10
-					#span(style="font-size:1.2em;")
+				div(style="width:100%; margin-bottom: 10px; overflow: hidden")
+					.col-md-2
+						img(src='/images/#{review.ReviewUserPicture}' style="width: 100%; max-width: 200px")
 						br
-						span.glyphicon.text-danger.glyphicon-heart
-						span.glyphicon.text-danger.glyphicon-heart
-						span.glyphicon.text-danger.glyphicon-heart
-						span.glyphicon.text-danger.glyphicon-heart
-						span.glyphicon.text-danger.glyphicon-heart-empty
-						br
+					.col-md-10
+						#span(style="font-size:1.2em;")
+							br
+							span.glyphicon.text-danger.glyphicon-heart
+							span.glyphicon.text-danger.glyphicon-heart
+							span.glyphicon.text-danger.glyphicon-heart
+							span.glyphicon.text-danger.glyphicon-heart
+							span.glyphicon.text-danger.glyphicon-heart-empty
+							br
 					
-					h4 #{review.ReviewUserName}
-					p
-						|#{review.ReviewDesc}
-					br
+						h4 #{review.ReviewUserName}
+						p
+							|#{review.ReviewDesc}
 				
 				
