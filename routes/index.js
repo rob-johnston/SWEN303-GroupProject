@@ -315,12 +315,9 @@ router.post('/login', function(req, res){
             user.loggedIn = true;
             user.admin = userObject.UserAdmin;
             //render success message
-            res.render('login', {user: user, errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
 
-            /*TODO -- here we are just rendering a shitty success message, would be cool if we could redirect to the seller home page or whatever*/
+           res.redirect('/seller?user='+ user.username);
 
-           //backURL=req.header('Referer') || '/seller';
-           //res.render(backURL, {user: user, errorAlert: errorAlert, loggedIn: user.loggedIn, username: user.username});
         }
         else {
             //failed login so print error
@@ -353,6 +350,7 @@ router.get('/logout', function(req, res){
 });
 
 router.get('/register', function(req,res){
+    //blank data
     var previous = {
         username: "",
         address: "",
@@ -366,7 +364,7 @@ router.post('/register', upload.single('fileUpload'), function(req,res){
     viewlisting.saveImage(req,res,function(imageName) {
         login.register(req.body,imageName,function(result){
             if(result){
-
+                //empty results
                 var previous = {
                     username: "",
                     address: "",
@@ -376,6 +374,7 @@ router.post('/register', upload.single('fileUpload'), function(req,res){
                 res.render('register', {user: user, message:'successfully registered!', previous: previous});
 
             } else {
+                //failed so reuse form data, so user doesnt need to retype everything
                 var previous = {
                     username: req.body.username,
                     address: req.body.address,
