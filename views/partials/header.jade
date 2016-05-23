@@ -1,17 +1,17 @@
-//- if(user.loggedIn)
-//- 	#welcome(style='float:right')
-//- 		p Welcome 
-//- 		b=user.username + "!"
-//- 	#language(style="float:right; padding-right:20px" )
-//- 		+dropdown("Language",[
-//- 			{text:"中文",url:"/c"},
-//- 			{text:"English",url:"/"}])
-//- else		
-#language(style="float:right")
-	+dropdown("Language",[
-	 	{text:"中文",url:"/c"},
-	 	{text:"English",url:"/"}
-	 ])
+if(user.loggedIn)
+	#welcome(style='float:right')
+		p Welcome 
+		b=user.username + "!"
+	#language(style="float:right; padding-right:20px" )
+		+dropdown("Language",[
+			{text:"中文",url:"/c"},
+			{text:"English",url:"/"}])
+else		
+	#language(style="float:right")
+		+dropdown("Language",[
+		 	{text:"中文",url:"/c"},
+		 	{text:"English",url:"/"}
+		 ])
 a(href="/")
 	img.center(src='images/title.jpg', alt='logo',style='max-width:100%; height:auto;width:auto',href="/")
 
@@ -22,3 +22,11 @@ a(href="/")
 				input(class="form-control" type="text",name="searchbar",placeholder="Search...",value=titleInput)
 			.col-md-1
 				input(class="btn btn-default" type="submit",value="search")
+//shopping cart
+if(user.loggedIn)
+	#cart(style='float:right')
+		a(href='/cart')
+			span.badge=user.cart.length
+			span.glyphicon.glyphicon-shopping-cart.black(style="font-size:2.5em;float:right") 
+	br
+	br

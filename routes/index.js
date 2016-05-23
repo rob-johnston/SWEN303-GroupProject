@@ -58,6 +58,11 @@ router.get('/listing', function(req, res, next) {
     });
 });
 
+/*Add Review*/
+router.get('/addReview',function(req,res,next){
+  res.render('addReview',{user:user});
+});
+
 /*cart*/
 router.get('/cart',function(req,res,next){
   res.render('cart',{user:user});
