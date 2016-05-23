@@ -15,7 +15,7 @@ block body
 	.container
 		.center
 			#formCenter
-				form.centerAdd(action="/addReview",method="post",id="addReview" enctype="multipart/form-data")
+				form.centerAdd(action="/add",method="post",id="form1" enctype="multipart/form-data")
 					h4 Listing title
 					input(class="form-control",type="text", name="ListingTitle", form="form1" placeholder="title",required)
 					h4 Colours available
@@ -36,4 +36,4 @@ block body
 					input(type="file" value="Choose image file to Upload" name="fileUpload" form="form1" accept="image/*")
 					br
 					br
-					input.btn.btn-success(type="submit" form="addReview" value="Submit listing")
+					input.btn.btn-success(type="submit" form="form1" value="Submit listing")

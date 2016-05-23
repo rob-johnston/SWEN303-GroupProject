@@ -14,11 +14,18 @@ block body
 		include ./partials/navbar.jade
 	.container
 		.jumbotron
-				h1 Welcome to Hats!
-				p.lead
-					|Don't have an account? No worries! Sign up for free today and get a FREE $5 voucher!
-				p
-					a.btn.btn-lg.btn-success(href='/register', role='button') Sign up!
+				if(!user.loggedIn)
+					h1 Welcome to Hats!
+					p.lead
+						|Don't have an account? No worries! Sign up for free today and get a FREE $5 voucher!
+					p
+						a.btn.btn-lg.btn-success(href='/register', role='button') Sign up!
+				else
+					h1 Welcome to Hats!
+					p.lead
+						|Click the button to change your details, or view your profile!
+					p
+						a.btn.btn-lg.btn-primary(href='/seller', role='button') View Profile!
 		.row
 			.col-md-4
 				.center
